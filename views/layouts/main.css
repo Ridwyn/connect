@@ -1,0 +1,114 @@
+:root {
+ --bg-primary: rgba(90, 52, 160,0.3) ;
+  --bg-secondary: #f5f6fa;
+  --bg-tertiary:#2ec1ac;
+  
+  --text-color: #555;
+
+  --link-color: #fff;
+  --link-bg: rgba(111, 66, 194, 0.8);
+  --link-bg-hover: rgba(111,66,193,1)
+  ;
+  --btn-color: gray;
+  --btn-bg: rgba(248,248,255);
+  --btn-bg-hover: rgba(248,248,255);
+
+}
+
+body{
+  background:#f8f8ff !important;
+  line-height: 1.7;
+  color:  gray!important;
+  font-weight: 400;
+  font-size: 1rem;
+}
+h1,h2,h3{
+  color:#6f42c1;
+}
+
+.sub-heading{
+  color:rgba(111, 66, 193, 0.5);;
+}
+
+input, input[type='file'] {
+  border-radius: 5px;
+}
+textarea{
+  border-radius: 5px;
+}
+
+a,
+a:link ,
+input[type='submit']{
+  color: var(--link-color);
+  background-color: var(--link-bg);
+  border-radius: 5px;
+}
+a:hover,
+input[type='submit']:hover {
+  background-color: var(--link-bg-hover);
+}
+
+button{
+  color: var(--btn-color);
+  background-color: var(--btn-bg);
+  border: 1px solid var(--btn-color);
+  border-radius: 5px!important;
+  padding: 0.3rem 0.5rem;
+}
+
+button:hover{
+  color: var(--text-color);
+}
+
+header {
+  background-color: var(--bg-primary);
+  border-radius: 0px 0px 5px 5px;
+  margin: 0;
+}
+main{
+  margin: 0!important;
+}
+
+aside .nav-category{
+  border-right: 1px solid #aaa;
+  height: 100vh;
+  overflow: auto;
+}
+
+aside::after{
+  position: absolute;
+
+  border-right: 4px solid black !important;
+}
+
+
+
+.task, 
+.workspace {
+  border-radius: 10px;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+}
+.task .task-header{
+  border-bottom: 1px solid rgba(0,0,0,.125);
+  padding: 1rem;
+}
+
+.task .task-body .left,
+.workspace .workspace-body .left {
+  padding: 1rem;
+  border-right: 1px solid rgba(0,0,0,.125);
+
+}
+
+.dropdown-menu{
+  position: fixed;
+    opacity: 0;
+    animation: 0.1s ease-in 0s 1 normal forwards running fadeIn;
+    z-index: 100000;
+    left: 542.74px;
+    top: 51.5px;
+    width: 190px;
+}
