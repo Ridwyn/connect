@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var exphbs  = require('express-handlebars');
+var handlebars  = require('express-handlebars');
 const path = require('path');
 
 
@@ -24,8 +24,6 @@ app.use(express.static(__dirname+"/views/layouts"));
 
 const port = 3000;
 
-//Loads the handlebars module
-const handlebars = require('express-handlebars');
 //Sets our app to use the handlebars engine
 app.set('view engine', 'hbs');
 //Sets handlebars configurations (we will go through them later on)
