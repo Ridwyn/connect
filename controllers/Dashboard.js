@@ -1,27 +1,11 @@
 // PULL all data in here from store
 
-class DashboardController {
-    static async home(req,res){
-        res.render('dashboard', {'name':'John'});
-    }
-//   static async register(req, res) {
-//     try {
-//       let payload = await AccountStore.register(req);
-//       res.send(payload);
-//     } catch(exception) {
-//       res.status(500).send(exception)
-//     }
-//   }
+var express = require('express')
+var dashboardController = express.Router()
 
 
-//   static async getAll(req, res) {
-//     try {
-//       let payload = await AccountStore.getAllUsers(req);
-//       res.send(payload);
-//     } catch(exception) {
-//       res.status(500).send(exception)
-//     }
-//   }
-}
+dashboardController.get('/',(req,res)=>{
+    res.render('dashboard', {'name':'John'});
+})
 
-module.exports =  DashboardController;
+module.exports =  dashboardController;
