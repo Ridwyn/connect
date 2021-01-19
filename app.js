@@ -1,10 +1,12 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var handlebars  = require('express-handlebars');
 const path = require('path');
 
 
 var app = express();
+var secret='123'
 
 // set JSON size limit
 var bodyParser = require('body-parser');
@@ -16,7 +18,7 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 app.use(bodyParser.json());
-
+app.use(cookieParser(secret))
 
 
 // NEEDED TO IMPORT CSS
@@ -51,7 +53,7 @@ const start = async() => {
 start();
 
 // To do
-// Create authentication
-// Connect with mongoDB
+// Create authentication  ##done
+// Connect with mongoDB 
 // Start model structure
 // implement simple task
