@@ -22,7 +22,7 @@ app.use(cookieParser(secret))
 
 
 // NEEDED TO IMPORT CSS
-app.use(express.static(__dirname+"/views/layouts"));
+app.use(express.static(__dirname+"/views"));
 
 const port = 3000;
 

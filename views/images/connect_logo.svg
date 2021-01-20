@@ -1,0 +1,18 @@
+<svg width="612" height="612" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="602" width="802" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1">
+   <path id="svg_2" d="m612,513c0,56.1 -45.9,102 -102,102l-408,0c-56.1,0 -102,-45.9 -102,-102l0,-408c0,-56.1 45.9,-102 102,-102l408,0c56.1,0 102,45.9 102,102l0,408z" fill="#563D7C"/>
+   <text y2="297" x2="230.83501" font-weight="bold" stroke="null" transform="matrix(1.625822067260742,0,0,1.6846667271969484,-273.4244516789914,-193.78975827524036) " xml:space="preserve" text-anchor="start" font-family="sans-serif" font-size="250" id="svg_4" y="391" x="190.83501" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#ffffff">C</text>
+  </g>
+  <line stroke="null" stroke-linecap="null" stroke-linejoin="null" id="svg_5" y2="317" x2="424.835" y1="297" x1="230.83501" stroke-opacity="null" stroke-width="null" fill="none"/>
+  <path stroke="null" id="svg_10" d="m318.01534,358.99799l33.59429,-41.67348l-33.59429,-41.67378l19.20084,-23.81606l52.79921,65.48984l-52.79921,65.51016" fill-opacity="null" stroke-opacity="null" stroke-width="null" fill="#ffffff"/>
+  <path stroke="null" id="svg_12" d="m376.44533,380.02998l41.05965,-64.89611l-41.05965,-64.89657l23.46767,-37.08761l64.5323,101.98418l-64.5323,102.01583" fill-opacity="null" stroke-opacity="null" stroke-width="null" fill="#ffffff"/>
+  <path stroke="null" id="svg_13" d="m449.92533,406.52277l48.52506,-87.16436l-48.52506,-87.16499l27.73453,-49.81374l76.26547,136.97873l-76.26547,137.02123" fill-opacity="null" stroke-opacity="null" stroke-width="null" fill="#ffffff"/>
+ </g>
+</svg>

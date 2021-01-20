@@ -1,13 +1,15 @@
-{{#if errorMsg}}
-<h4>{{errorMsg }}</h4>
-{{/if}}
-<form class="form-signin" action="/login" method="POST">
-      <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+
+<form class="form-signin text-center" action="/login" method="POST">
+
+      <img class="mb-4 ml-" src="/images/connect_logo.svg" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      {{#if errorMsg}}
+      <span class="text-danger">{{errorMsg }}</span>
+      {{/if}}
       <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+      <input type="email" name="email" id="inputEmail" class="form-control " placeholder="Email address" required="" autofocus="">
       <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+      <input type="password" name="password" id="inputPassword" class="form-control mt-2" placeholder="Password" required="">
       <div class="checkbox mb-3">
         <label>
           <input type="checkbox" value="remember-me"> Remember me

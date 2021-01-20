@@ -14,9 +14,8 @@ class Authentication {
             res.cookie('user', {username,password,loggedIn:true}, { signed: true })
             .redirect("/dashboard")
         } else {
-            res
-            .redirect("/loginpage",{'errorMsg':'Incorrect username or passowrd'})
-        }
+            res.render("login",{layout:'homepage','errorMsg':'Incorrect username or passowrd'})
+            }
         }
     }
     static async check (req, res,next) {
@@ -28,8 +27,8 @@ class Authentication {
     }
 
     static async logout(req,res,next){
-        res.cookie('user', '', {expires: new Date(0)});
-        res.status(300).render('home')
+        res.cookie('user', '', {expires: new Date(0)})
+        .redirect('/home')
     }
   }
 

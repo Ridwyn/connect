@@ -4,11 +4,13 @@ class Routes {
     
    static async init(app){
     var auth= require('../auth/authentication.js')
-    app.use('/loginpage',(req,res,next)=>{res.render('login')})
+    app.use('/loginpage',(req,res,next)=>{res.render('login',{layout:'homepage'})})
     app.use('/login',auth.login)
     app.use('/logout',auth.logout)
 
-
+    var Home = require('../controllers/Home.js')
+    app.use('/home',Home)
+    app.use('/',Home)
 
     var Dashboard = require('../controllers/Dashboard.js');
     app.use('/dashboard',auth.check, Dashboard)   
@@ -16,7 +18,10 @@ class Routes {
     var Task = require('../controllers/Task.js');
     app.use('/task',auth.check,Task)
 
-        
+    var Workspace=require('../controllers/Workspace.js')
+    app.use('/workspace',Workspace)
+
+
 
     // NOT found error
     app.use(function(req, res, next){

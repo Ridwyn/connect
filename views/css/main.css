@@ -40,14 +40,26 @@ textarea{
 a,
 a:link ,
 input[type='submit']{
-  color: var(--link-color);
+  color: var(--link-color)!important;
   background-color: var(--link-bg);
   border-radius: 5px;
 }
+
 a:hover,
 input[type='submit']:hover {
   background-color: var(--link-bg-hover);
 }
+
+a.logout{
+  padding: .5rem;
+  background-color: rgba(133, 0, 0, 0.473);
+  border-radius: 5px;
+}
+a.logout:hover{
+  background-color: rgba(133, 0, 0, 0.8);
+  border-radius: 5px;
+}
+
 
 button{
   color: var(--btn-color);
