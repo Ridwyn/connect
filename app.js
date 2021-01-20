@@ -2,7 +2,21 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var handlebars  = require('express-handlebars');
-const path = require('path');
+
+const mongoose = require('mongoose')
+const url = "mongodb+srv://ridwyn97:ridwyn97@realmcluster.ukvwr.mongodb.net/connect-app?retryWrites=true&w=majority";
+
+mongoose.connect(url, { useNewUrlParser: true,useUnifiedTopology: true  })
+const db = mongoose.connection
+db.once('open', _ => {
+  console.log('Database connected:', url)
+})
+
+db.on('error', err => {
+  console.error('connection error:', err)
+})
+
+
 
 
 var app = express();
