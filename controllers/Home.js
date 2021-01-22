@@ -5,7 +5,7 @@ var homeController = express.Router()
 
 
 homeController.get('/',(req,res)=>{
-    res.render('home', {layout:'homepage','name':'req.signedCookies.user.username'});
+    res.render('homeView', {layout:'homepage','name':'req.signedCookies.user.username'});
 })
 
 module.exports =  homeController;

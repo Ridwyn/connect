@@ -5,7 +5,7 @@ var dashboardController = express.Router()
 
 
 dashboardController.get('/',(req,res)=>{
-    res.render('dashboard', {'name':'req.signedCookies.user.username'});
+    res.render('dashboardView', {'user':req.signedCookies.user});
 })
 
 module.exports =  dashboardController;

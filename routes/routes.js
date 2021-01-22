@@ -4,8 +4,10 @@ class Routes {
     
    static async init(app){
     var auth= require('../auth/authentication.js')
-    app.use('/loginpage',(req,res,next)=>{res.render('login',{layout:'homepage'})})
+    app.use('/loginpage',(req,res,next)=>{res.render('loginView',{layout:'homepage'})})
     app.use('/login',auth.login)
+    app.use('/signuppage',(req,res,next)=>{res.render('signupView',{layout:'homepage'})})
+    app.use('/signup',auth.signup)
     app.use('/logout',auth.logout)
 
     var Home = require('../controllers/Home.js')

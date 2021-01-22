@@ -1,22 +1,26 @@
+let User=require('../models/User.js')
 class Authentication {
-    static async loginPage(res,req){
-        res.render('login')
-    }
     static async login (req, res,next) {
-      let username = req.body.email;
+      let email = req.body.email;
       let password = req.body.password;
       // For the given username fetch user from DB
-      let mockedUsername = 'salihouridwyn@gmail.com';
-      let mockedPassword = 'a';
+     let found_user= await User.findOne({'email':email}).exec()
   
-      if (username && password) {
-        if (username === mockedUsername && password === mockedPassword) {
-            res.cookie('user', {username,password,loggedIn:true}, { signed: true })
+      if (found_user) {
+        if (email === found_user.email && password === found_user.password) {
+            res.cookie('user',found_user.toJSON(), { signed: true })
             .redirect("/dashboard")
         } else {
-            res.render("login",{layout:'homepage','errorMsg':'Incorrect username or passowrd'})
+            res.render("loginView",{layout:'homepage','errorMsg':'Incorrect email or passowrd'})
             }
-        }
+        }else{
+                res.render("loginView",{layout:'hompage', 'errorMsg':'Create an Account'})
+            } 
+    }
+    static async signup(req,res,next){
+        const new_user=new User(req.body);
+        let a = await new_user.save()
+        res.cookie('user', new_user.toJSON(), { signed: true }).redirect('/dashboard')
     }
     static async check (req, res,next) {
         if(req.signedCookies.user){
