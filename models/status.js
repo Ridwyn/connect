@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 
 const statusSchema = new Schema({
   status: String,
-  oderindex: Int32Array,
+  oderindex: Number,
   color:String,
   type:String,
 })
