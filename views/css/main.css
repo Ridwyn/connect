@@ -61,16 +61,19 @@ a.logout:hover{
 }
 
 
-button{
-  color: var(--btn-color);
-  background-color: var(--btn-bg);
-  border: 1px solid var(--btn-color);
+button,
+a.button
+{
+  color: var(--btn-color) !important;
+  background-color: var(--btn-bg) !important;
+  border: 1px solid var(--btn-color) !important;
   border-radius: 5px!important;
-  padding: 0.3rem 0.5rem;
+  padding: 0.3rem 0.5rem !important;
 }
 
-button:hover{
-  color: var(--text-color);
+button:hover,
+a.button:hover{
+  color: var(--text-color) !important;
 }
 
 header {

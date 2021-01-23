@@ -1,9 +1,10 @@
 <section class="workspace col m-4 p-2 ">
           <div class="workspace-body row">
             <form class="col-8 left" action="/workspace/form" method="POST" >
+                {{#if data.space._id}}<input type="text"  name="_id" value="{{data.space._id}}" hidden>{{/if}}
               <div class="mb-3">
                 <h5>WorkSpace Name:</h5>
-                <input type="text" name="name">
+                <input type="text" name="name" {{#if data.space.name}}value="{{data.space.name}}"{{/if}}>
               </div>
             <div>
                 <h4>Status:</h4>

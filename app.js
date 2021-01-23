@@ -46,7 +46,12 @@ const start = async() => {
 	try{
     // CONNECT TO MONGODB
     const url = "mongodb+srv://ridwyn97:ridwyn97@realmcluster.ukvwr.mongodb.net/connect-app?retryWrites=true&w=majority";
-    await mongoose.connect(url, { useNewUrlParser: true,useUnifiedTopology: true, useCreateIndex: true,  })
+    await mongoose.connect(url, { 
+      useNewUrlParser: true,
+      useUnifiedTopology: true, 
+      useCreateIndex:true,
+      useFindAndModify:true  
+      })
     const db = mongoose.connection
     db.once('open', _ => {
       console.log('Database connected:', url)
@@ -71,6 +76,6 @@ start();
 // Create authentication  ##done
 // Connect with mongoDB   ##done
 // Start model structure   ##done
-// Implement workspace crud
+// Implement workspace crud ##done
 // implement project crud 
 // implement simple task

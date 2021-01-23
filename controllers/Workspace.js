@@ -5,28 +5,51 @@ let User = require('../models/User.js')
 const mnemonicId = require('mnemonic-id');
 
 
-workspaceController.get('/form',(req,res)=>{
-    console.log('from get route')
-    
-    console.log(req.body);
-    res.render('workspaceformView', {'data':'req.signedCookies.user.username'});
+workspaceController.get('/form',async(req,res)=>{
+    let data={};
+    if(req.query._id){
+        let space = await Workspace.findById(req.query._id).lean().exec()
+        data['space']=space; 
+    }
+ 
+    res.render('workspaceformView', {'data':data});
 })
 
 workspaceController.post('/form',async (req,res)=>{
-    console.log('from post route');
-    let new_workspace=new Workspace(req.body)
-    new_workspace.owner= req.signedCookies.user
-    new_workspace.join_code=mnemonicId.createUniqueNameId();
-    new_workspace.members=[req.signedCookies.user];
-    try {
-        let results=await new_workspace.save()
-        console.log(results)
-        res.cookie('workspace',results.toJSON(), { signed: true }).render('dashboardView');
-    } catch (error) {
-        
+    let result;
+    // Update workspace
+    if(req.body._id){
+       Workspace.findByIdAndUpdate(req.body._id, req.body, {new:true,lean:true},function (error,doc) {
+           console.log(doc);
+           res.redirect('/dashboard');
+        })        
+    }else{
+        // Create new workspace
+        try {
+            let new_workspace=new Workspace(req.body)
+            new_workspace.owner= req.signedCookies.user
+            new_workspace.join_code=mnemonicId.createUniqueNameId();
+            new_workspace.members=[req.signedCookies.user];
+            results=await new_workspace.save()
+            console.log(result);
+            res.redirect('/dashboard');
+        } catch (error) {
+            
+        }
     }
-    
+
 })
+
+workspaceController.get('/delete', async(req,res)=>{
+    try {
+        Workspace.findByIdAndDelete(req.query._id).exec()
+        res.redirect('/dashboard')
+    } catch (error) {
+        console.log(error);
+    }
+
+})
+
 
 
 

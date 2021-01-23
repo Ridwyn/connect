@@ -10,10 +10,10 @@ dashboardController.get('/',async (req,res)=>{
     try {
         let data={}   
         // Find all workspace for currently lgged member
-        let found_spaces=await Workspace.find({ 'members' :  req.signedCookies.user }).lean().exec();
-        console.log(found_spaces)
+        let spaces=await Workspace.find({ 'members' :  req.signedCookies.user }).lean().exec();
         data['user']=req.signedCookies.user;
-        data['found_spaces']=found_spaces
+        data['spaces']=spaces
+        data['projects']=spaces
         res.render('dashboardView', {'data':data});
     } catch (error) {
         console.log(error);
