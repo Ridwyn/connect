@@ -6,8 +6,8 @@ const Schema = mongoose.Schema
 const workspaceSchema = new Schema({
   name: String,
   created_at:{ type: Date, default: Date.now },
-  owner:{ type : userSchema , required : true },
-  join_code: { type : String , unique : true, required : true },
+  created_by:{ type : userSchema , required : true },
+  join_code: { type : String ,  required : true },
   members:[userSchema],
   custom_statuses:[{status_type:[statusSchema]}],
   default_statuses:{type:Schema.Types.Mixed,default:{'basic':

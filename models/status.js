@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const userSchema = require('./User.js')
-const workspaceSchema = require('./Workspace.js')
+const userSchema = require('./User.js').schema
+const workspaceSchema = require('./Workspace.js').schema
 const Schema = mongoose.Schema
 
 const statusSchema = new Schema({

@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
-const userSchema = require('./User.js')
-const workspaceSchema = require('./Workspace.js')
-const statusSchema = require('./Status.js')
+const userSchema = require('./User.js').schema
+const workspaceSchema = require('./Workspace.js').schema
+const statusSchema = require('./Status.js').schema
 const Schema = mongoose.Schema
 
 const projectSchema = new Schema({
   name: String,
   description: String,
-  workspace:workspaceSchema,
+  workspace: { type: Schema.Types.ObjectId, ref: 'Workspace' },
   created_at:{ type: Date, default: Date.now },
   created_by:userSchema,
   statuses:[statusSchema]

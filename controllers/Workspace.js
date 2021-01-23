@@ -21,18 +21,18 @@ workspaceController.post('/form',async (req,res)=>{
     if(req.body._id){
        Workspace.findByIdAndUpdate(req.body._id, req.body, {new:true,lean:true},function (error,doc) {
            console.log(doc);
-           res.redirect('/dashboard');
+           res.redirect(`/dashboard?space_id=${req.body._id}`);
         })        
     }else{
         // Create new workspace
         try {
             let new_workspace=new Workspace(req.body)
-            new_workspace.owner= req.signedCookies.user
+            new_workspace.created_by= req.signedCookies.user
             new_workspace.join_code=mnemonicId.createUniqueNameId();
             new_workspace.members=[req.signedCookies.user];
             results=await new_workspace.save()
             console.log(result);
-            res.redirect('/dashboard');
+            res.redirect(`/dashboard?space_id=${results._id}`);
         } catch (error) {
             
         }

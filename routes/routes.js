@@ -23,6 +23,9 @@ class Routes {
     var Workspace=require('../controllers/Workspace.js')
     app.use('/workspace',Workspace)
 
+    var Project=require('../controllers/Project.js')
+    app.use('/project',Project)
+
 
 
     // NOT found error

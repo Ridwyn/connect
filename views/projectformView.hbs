@@ -1,0 +1,15 @@
+<section class="workspace col m-4 p-2 ">
+          <div class="workspace-body row">
+            <form class="col-8 left" action="/project/form" method="POST" >
+                {{#if data.project._id}}<input type="text"  name="_id" value="{{data.project._id}}" hidden>{{/if}}
+                {{#if data.space_id}}<input type="text"  name="space_id" value="{{data.space_id}}" hidden>{{/if}}
+              <div class="mb-3">
+                <h5>Project Name:</h5>
+                <input type="text" name="name" {{#if data.project.name}}value="{{data.project.name}}"{{/if}}>
+              </div>
+                <input type="submit">
+            </form>
+           
+
+          </div>
+</section>
