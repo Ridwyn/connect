@@ -1,7 +1,7 @@
 var express = require('express')
 var workspaceController = express.Router()
 let Workspace = require('../models/Workspace.js')
-let User = require('../models/User.js')
+let Default_Status = require('../models/Default_status.js')
 const mnemonicId = require('mnemonic-id');
 
 
@@ -11,6 +11,8 @@ workspaceController.get('/form',async(req,res)=>{
         let space = await Workspace.findById(req.query._id).lean().exec()
         data['space']=space; 
     }
+    data['default_statuses']= await Default_Status.find().lean().exec();
+    console.log( data['default_statuses'])
  
     res.render('workspaceFormView', {'data':data});
 })

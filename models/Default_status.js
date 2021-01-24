@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const statusSchema = new Schema({
+const defaultstatusSchema = new Schema({
   status: String,
   oderindex: Number,
   color:String,
   type:String,
 })
 
-module.exports = mongoose.model('Status', statusSchema)
+module.exports = mongoose.model('default_status', defaultstatusSchema)

@@ -79,4 +79,8 @@ start();
 // Start model structure   ##done
 // Implement workspace crud ##done
 // implement project crud ###done 
-// implement simple task
+// implement simple task ##done
+// Add custom statuses to project
+// Implemet status feature
+// Implement priority feature
+// implement members join

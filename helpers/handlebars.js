@@ -13,6 +13,12 @@ module.exports = {
         }
         return JSON.stringify(date);
     },
+    objParse: function(date){
+        if (!date) {
+            return;
+        }
+        return JSON.parse(date);
+    },
     assign:function (varName, varValue, options) {
         if (!options.data.root) {
             options.data.root = {};
