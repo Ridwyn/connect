@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const userSchema = require('./User').schema
-const projectSchema = require('./Project.js').schema
-const workspaceSchema = require('./Workspace.js').schema
+const statusSchema = require('./Status.js').schema
+const commentSchema = require('./Comment.js').schema
 const Schema = mongoose.Schema
 
 const taskSchema = new Schema({
@@ -16,9 +16,10 @@ const taskSchema = new Schema({
   created_by:userSchema,
   priority:String,
   assignees:[userSchema],
-  project:projectSchema,
-  workspace:workspaceSchema,
-  status:{status}
+  project:{type: Schema.Types.ObjectId, ref: 'Project' },
+  workspace:{type: Schema.Types.ObjectId, ref: 'Workspace' },
+  comments:[commentSchema],
+  status:{statusSchema}
 })
 
 module.exports = mongoose.model('Task', taskSchema)

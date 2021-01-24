@@ -4,6 +4,7 @@ var express = require('express')
 var dashboardController = express.Router()
 let Workspace = require('../models/Workspace.js')
 let Project = require('../models/Project.js')
+let Task = require('../models/Task.js')
 let User = require('../models/User.js')
 
 
@@ -25,7 +26,9 @@ dashboardController.get('/:space_id?:project_id?',async (req,res)=>{
         // Project id to fetch product task
         if (req.query.project_id) {
             let project=await Project.findById(req.query.project_id).lean().exec();
+            let tasks=await Task.find({'project':req.query.project_id}).lean().exec();
             data['current_project']=project
+            data['tasks']=tasks
         }
 
         res.render('dashboardView', {'data':data});

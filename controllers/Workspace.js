@@ -12,7 +12,7 @@ workspaceController.get('/form',async(req,res)=>{
         data['space']=space; 
     }
  
-    res.render('workspaceformView', {'data':data});
+    res.render('workspaceFormView', {'data':data});
 })
 
 workspaceController.post('/form',async (req,res)=>{

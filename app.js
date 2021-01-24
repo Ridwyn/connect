@@ -35,6 +35,7 @@ app.set('view engine', 'hbs');
 app.engine('hbs', handlebars({
     extname: '.hbs',
     layoutsDir: __dirname + '/views/layouts',
+    helpers:require('./helpers/handlebars.js')
 }));
 
 
@@ -77,5 +78,5 @@ start();
 // Connect with mongoDB   ##done
 // Start model structure   ##done
 // Implement workspace crud ##done
-// implement project crud 
+// implement project crud ###done 
 // implement simple task

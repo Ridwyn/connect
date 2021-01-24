@@ -1,41 +1,49 @@
 <section class="task col m-4 p-2 ">
           <div class="task-header d-flex flex-row justify-content-between">
-            <div class="p-2">Status</div>
+            <div class="p-2">Status: {{#if data.task.status}}{{data.task.status}}{{/if}}</div>
             <div class="p-2">assignee of task</div>
-            <div class="p-2">date created</div>
-            <div class="p-2">set due date</div>
+            <div class="p-2">date created: {{#if data.task.created_at}}{{format_date data.task.created_at "ddd DD/MM/YYYY"}}{{/if}}</div>
+            <div class="p-2">set due date: {{#if data.task.due_date}}{{data.task.due_date}}{{/if}} </div>
           </div>
           <div class="task-body row">
-            <form class="col-8 left" action="#" enctype="multipart/form-data">
+            <form class="col-8 left" action="/task/form" method="POST" enctype="multipart/form-data">
+                  {{#if data.task._id}}<input type="text"  name="_id" value="{{data.task._id}}" hidden>{{/if}}
+                  {{#if data.task.space_id}}<input type="text"  name="space_id" value="{{data.task.space_id}}" hidden>{{/if}}
+                  {{#if data.task.project_id}}<input type="text"  name="project_id" value="{{data.task.project_id}}" hidden>{{/if}}
+
               <div>
-                <h2>Task Title</h2>
+                <input type="text" name="name" id="" {{#if data.task.name}}value="{{data.task.name}}"{{/if}}>
                 <p>Tags:
                   Bug, Sprint22
                 </p>
-                <textarea class="col" name="" id="" rows="10">                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore et, nulla rem magnam explicabo
-                   cupiditate fugit quia assumenda
+                <textarea class="col" name="description" id="" rows="10" >  
+                  {{#if data.task.description}}{{data.task.description}}{{/if}}
                 </textarea>
               </div>
 
               <div class="my-3">
                 <label for="#">Attachments/files: </label>
-                <input multiple="" type="file">
+                <input multiple="" type="file" name="attachments">
               </div>
-
-              <div class="my-3">
-                <label for="#">Comment: </label>
-                <input type="text" placeholder="comment on this task">
-                <input type="submit">
-              </div>
-
-
+               <input type="submit" value="Submit">
             </form>
-            <div class="col right">
-              <h2>Task History</h2>
-              <p>User1 moved task</p>
-              <p>User1 assigned task</p>
-              <p>User2 commented: lorem ipsum</p>
 
+
+            {{!-- Comment Section --}}
+            <div class="col right d-flex flex-column justify-content-between ">
+              <div>
+                <h2>Task History</h2>
+                <p>User1 moved task</p>
+                <p>User1 assigned task</p>
+                <p>User2 commented: lorem ipsum</p>
+              </div>
+              
+              <form action="" method="">
+                <div class="my-3">
+                  <input type="text" name="text" placeholder="comment on this task">
+                  <input type="submit" value="Comment">
+                </div>
+              </form>
             </div>
 
           </div>
