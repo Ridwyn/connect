@@ -26,6 +26,9 @@ class Routes {
     var Task = require('../controllers/Task.js');
     app.use('/task',auth.check,Task)
 
+    var Status = require('../controllers/Status.js');
+    app.use('/status',auth.check,Status)
+
 
 
     // NOT found error

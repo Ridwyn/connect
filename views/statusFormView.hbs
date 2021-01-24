@@ -1,0 +1,15 @@
+<form action="/status/form" class="status-form text-center" method="post">
+    <label for="" >Template Name:</label>
+    <input type="text" name="template_name" required>
+    <input type="text" name="space_id"  value="{{data.space_id}}" hidden>
+    <div id="#statusContainer">
+        <label for="" >Status: </label>
+        <input type="text" name="[status]" placeholder="Enter status" required>
+        <label for="">Color: </label>
+        <input name="[color]" value="#3399FF" data-jscolor="{backgroundColor: '#333',}">
+    </div>
+    <div>
+        <span  onclick="addStatus()"class="badge p-2 my-2 bg-dark" style="cursor: pointer;">Add Status</span>
+    </div>
+<input type="submit" value="Submit">
+</form>

@@ -19,9 +19,41 @@ function changeViewStructure(){
   
  })
   }
+
+function addStatus() {
+    let sContainer= document.getElementById('#statusContainer')
+    var labelStatus = document.createElement("label");
+    labelStatus.innerHTML='Status:'
+    var inputStatus= document.createElement("input");
+    inputStatus.setAttribute("type", "text");
+    inputStatus.setAttribute("name", "[status]");
+    inputStatus.setAttribute("placeholder", "Enter status");
+    var labelColor = document.createElement("label");
+    labelColor.innerHTML='Color: '
+    var inputColor = document.createElement("input");
+    inputColor.setAttribute("name", "[color]");
+    inputColor.setAttribute("data-jscolor", "{format:'hex',backgroundColor: '#333'}");
+ 
+    var div = document.createElement("div");
+    div.appendChild(labelStatus);
+    div.appendChild (document.createTextNode (" "));
+    div.appendChild(inputStatus);
+    div.appendChild (document.createTextNode (" "));
+    div.appendChild(labelColor);   
+    div.appendChild (document.createTextNode (" "));
+    div.appendChild(inputColor);
+
+    sContainer.appendChild(div)
+
+    var myPicker = new JSColor(inputColor, {format:'hex',backgroundColor: '#333'});
+    myPicker.show()
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
 //    navtemplate();
    // Had to call method twice due to js event propagatio to eliminate cicking twice to activate
    changeViewStructure();
+   addStatus;
 //    changeViewStructure();
 });

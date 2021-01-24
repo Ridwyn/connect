@@ -134,3 +134,16 @@ aside::after{
   padding: 15px;
   margin: 0 auto;
 }
+
+.status-form{
+  width: 100%;
+  max-width: 500px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.status-form input{
+  margin:0.5rem 0 ;
+}
+.status-form input[name='[color]']{
+  width: 115px;
+}

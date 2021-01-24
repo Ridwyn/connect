@@ -13,7 +13,7 @@
                   </div>
                   <select class="custom-select" id="inputGroupSelect01" name="status">
                     {{#each data.space.custom_statuses}}
-                      <option value="{{@key}}">{{@key}}</option>
+                      <option value="{{this.name}}">{{ this.name}}</option>
                     {{/each}}
                     {{#each data.space.default_statuses}}
                       <option value="{{@key}}">{{@key}}</option>
@@ -21,7 +21,7 @@
                   </select>
                 </div>
 
-                {{!-- Status collapse --}}
+                {{!-- Default Status collapse --}}
                 <div>                  
                   {{#each data.space.default_statuses}}
                       <button class="btn btn-primary " type="button" data-toggle="collapse" data-target="#{{@key}}" aria-expanded="false" aria-controls="collapseExample">
@@ -35,11 +35,24 @@
                           </span>
                         </div>
                       {{/each}}
+                  {{/each}}          
+                </div>
+                   {{!-Custom status -  --}}
+               <div class="my-2">
+                  {{#each data.space.custom_statuses}}
+                      <button class="btn btn-primary " type="button" data-toggle="collapse" data-target="#{{this.name}}" aria-expanded="false" aria-controls="collapseExample">
+                        {{this.name}}
+                      </button>
+                      {{#each this.statuses}}
+                        <div class="collapse m-2" id="{{this.type}}" >
+                          <span type="button" class="badge badge-pill" 
+                          style="color: {{this.color}};border-color:{{this.color}};border: 2px solid;">
+                           {{this.status}}
+                          </span>
+                        </div>
+                      {{/each}}
                   {{/each}}
-                </div>
-                   
-                <div class="row">
-                </div>
+               </div>
 
             </div>
               
