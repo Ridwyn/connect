@@ -22,6 +22,8 @@ dashboardController.get('/:space_id?:project_id?',async (req,res)=>{
         if (req.query.space_id) {
             let space=await Workspace.findById(req.query.space_id).lean().exec();
             let projects=await Project.find({'workspace':space}).lean().exec();
+            space['all_statuses']=[...space.custom_statuses,{'basic':space.default_statuses.basic,'name':'basic'}]
+            console.log( space['all_statuses']);
             data['current_space']=space;
             data['projects']=projects;
         }

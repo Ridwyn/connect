@@ -19,6 +19,9 @@ module.exports = {
         }
         return JSON.parse(date);
     },
+    noSpaceStr:function(str){
+      return str.split(' ').join('_')
+    },
     assign:function (varName, varValue, options) {
         if (!options.data.root) {
             options.data.root = {};
@@ -28,4 +31,13 @@ module.exports = {
     format_date:function(dateString,format) {
       return  moment(dateString).format(format);
     },
+    ifeq: function (a, b, options) {
+      if (a == b) { return options.fn(this); }
+      return options.inverse(this);
+    },
+    ifnoteq:function (a, b, options) {
+      if (a != b) { return options.fn(this); }
+      return options.inverse(this);
+    },
+
   }

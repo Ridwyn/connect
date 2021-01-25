@@ -51,7 +51,7 @@ const start = async() => {
       useNewUrlParser: true,
       useUnifiedTopology: true, 
       useCreateIndex:true,
-      useFindAndModify:true  
+      useFindAndModify:false ,
       })
     const db = mongoose.connection
     db.once('open', _ => {
@@ -80,7 +80,8 @@ start();
 // Implement workspace crud ##done
 // implement project crud ###done 
 // implement simple task ##done
-// Add custom statuses to project
+// Add custom statuses to project ##done
+// Add status to task
 // Implemet status feature
 // Implement priority feature
 // implement members join

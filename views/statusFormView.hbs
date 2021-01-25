@@ -1,13 +1,32 @@
 <form action="/status/form" class="status-form text-center" method="post">
     <label for="" >Template Name:</label>
-    <input type="text" name="template_name" required>
-    <input type="text" name="space_id"  value="{{data.space_id}}" hidden>
-    <div id="#statusContainer">
-        <label for="" >Status: </label>
-        <input type="text" name="[status]" placeholder="Enter status" required>
-        <label for="">Color: </label>
-        <input name="[color]" value="#3399FF" data-jscolor="{backgroundColor: '#333',}">
-    </div>
+    <input type="text" name="template_name" {{#if data.space.custom_status.name}} value="{{data.space.custom_status.name}}" {{/if}} required>
+    <input type="text" name="space_id"  value="{{data.space._id}}" hidden>
+    <input type="text" name="_id" {{#if data.space.custom_status._id}} value="{{data.space.custom_status._id}}" {{/if}}hidden>
+    {{#if data.space.custom_status }}
+        <div id="#statusContainer">
+            {{#each data.space.custom_status.statuses}}
+            <div >
+                <label for="" >Status: </label>
+                <input type="text" name="[status]" value="{{this.status}}" placeholder="Enter status" required>
+                <label for="">Color: </label>
+                <input name="[color]" value="{{this.color}}" data-jscolor="{backgroundColor: '#333',}">
+                <span class="remove-btn p-2" onclick="removeStatus(this)"><i class="fas fa-times text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove Status"></i></span>
+            </div>
+            {{/each}}
+        </div>        
+    {{else}}
+        <div id="#statusContainer">
+            <div>
+                <label for="" >Status: </label>
+                <input type="text" name="[status]" placeholder="Enter status" required>
+                <label for="">Color: </label>
+                <input name="[color]" value="#3399FF" data-jscolor="{backgroundColor: '#333',}">
+            </div>
+            
+        </div>
+    {{/if}}
+    
     <div>
         <span  onclick="addStatus()"class="badge p-2 my-2 bg-dark" style="cursor: pointer;">Add Status</span>
     </div>

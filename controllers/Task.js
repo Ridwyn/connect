@@ -31,6 +31,7 @@ taskController.post('/form',upload.any(),async (req,res)=>{
              new_task.created_by= req.signedCookies.user
              new_task.workspace= req.body.space_id
              new_task.project= req.body.project_id
+             console.log(new_task)
             await new_task.save( )
            res.redirect(`/dashboard?space_id=${req.body.space_id}&project_id=${req.body.project_id}`);
  

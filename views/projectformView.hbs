@@ -2,11 +2,42 @@
           <div class="workspace-body row">
             <form class="col-8 left" action="/project/form" method="POST" >
                 {{#if data.project._id}}<input type="text"  name="_id" value="{{data.project._id}}" hidden>{{/if}}
-                {{#if data.space_id}}<input type="text"  name="space_id" value="{{data.space_id}}" hidden>{{/if}}
+                {{#if data.space._id}}<input type="text"  name="space_id" value="{{data.space._id}}" hidden>{{/if}}
+              {{data.space_id}}
               <div class="mb-3">
                 <h5>Project Name:</h5>
                 <input type="text" name="name" {{#if data.project.name}}value="{{data.project.name}}"{{/if}}>
               </div>
+
+               <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Status Template For Project:</label>
+                  </div>
+                  <select class="custom-select" id="inputGroupSelect01" name="active_status_template">
+                    {{#each data.space.all_statuses}}
+                      <option value="{{this._id}}">{{ this.name}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+
+                {{!-Custom status -  --}}
+               <div class="my-2">
+                  {{#each data.space.all_statuses}}
+                    <div class="my-2">
+                       <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#{{noSpaceStr this.name}}" aria-expanded="false" aria-controls="collapseExample">
+                       {{this.name}}
+                      </button>
+                      {{#each this.statuses}}
+                        <div class="collapse m-2" id="{{noSpaceStr this.type}}" >
+                          <span type="button" class="badge badge-pill" 
+                          style="color: {{this.color}};border-color:{{this.color}};border: 2px solid;">
+                           {{this.status}}
+                          </span>
+                        </div>
+                      {{/each}}
+                    </div>
+                  {{/each}}
+               </div>
                 <input type="submit">
             </form>
            

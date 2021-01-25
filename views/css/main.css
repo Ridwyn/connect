@@ -77,13 +77,20 @@ a.button:hover{
 }
 
 header {
-  background-color: var(--bg-primary);
+  background-color: var(--bg-primary) ;
   border-radius: 0px 0px 5px 5px;
   margin: 0;
 }
+header ul.dropdown-menu {
+  /* min-width: 15rem!important; */
+  background-color: #555;
+}
+
 main{
   margin: 0!important;
 }
+
+
 
 aside .nav-category{
   border-right: 1px solid #aaa;
@@ -118,15 +125,7 @@ aside::after{
 
 }
 
-.dropdown-menu{
-  position: fixed;
-    opacity: 0;
-    animation: 0.1s ease-in 0s 1 normal forwards running fadeIn;
-    z-index: 100000;
-    left: 542.74px;
-    top: 51.5px;
-    width: 190px;
-}
+
 
 .form-signin {
   width: 100%;
@@ -146,4 +145,7 @@ aside::after{
 }
 .status-form input[name='[color]']{
   width: 115px;
+}
+.status-form label{
+ padding: 0.5rem;
 }

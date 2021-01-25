@@ -2,6 +2,8 @@ var express = require('express')
 var workspaceController = express.Router()
 let Workspace = require('../models/Workspace.js')
 let Default_Status = require('../models/Default_status.js')
+let Task = require('../models/Task.js')
+let Project = require('../models/Project.js')
 const mnemonicId = require('mnemonic-id');
 
 
@@ -12,7 +14,6 @@ workspaceController.get('/form',async(req,res)=>{
         data['space']=space; 
     }
     data['default_statuses']= await Default_Status.find().lean().exec();
-    console.log( data['default_statuses'])
  
     res.render('workspaceFormView', {'data':data});
 })
@@ -22,7 +23,6 @@ workspaceController.post('/form',async (req,res)=>{
     // Update workspace
     if(req.body._id){
        Workspace.findByIdAndUpdate(req.body._id, req.body, {new:true,lean:true},function (error,doc) {
-           console.log(doc);
            res.redirect(`/dashboard?space_id=${req.body._id}`);
         })        
     }else{
@@ -33,7 +33,6 @@ workspaceController.post('/form',async (req,res)=>{
             new_workspace.join_code=mnemonicId.createUniqueNameId();
             new_workspace.members=[req.signedCookies.user];
             results=await new_workspace.save()
-            console.log(result);
             res.redirect(`/dashboard?space_id=${results._id}`);
         } catch (error) {
             
@@ -44,7 +43,10 @@ workspaceController.post('/form',async (req,res)=>{
 
 workspaceController.get('/delete', async(req,res)=>{
     try {
+        let space_id=req.query._id
         Workspace.findByIdAndDelete(req.query._id).exec()
+        await Project.remove({'workspace':space_id}).exec()
+        await Task.remove({'workspace':space_id}).exec()
         res.redirect('/dashboard')
     } catch (error) {
         console.log(error);

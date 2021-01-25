@@ -8,8 +8,8 @@
           <div class="task-body row">
             <form class="col-8 left" action="/task/form" method="POST" enctype="multipart/form-data">
                   {{#if data.task._id}}<input type="text"  name="_id" value="{{data.task._id}}" hidden>{{/if}}
-                  {{#if data.task.space_id}}<input type="text"  name="space_id" value="{{data.task.space_id}}" hidden>{{/if}}
-                  {{#if data.task.project_id}}<input type="text"  name="project_id" value="{{data.task.project_id}}" hidden>{{/if}}
+                  {{#if data.space_id}}<input type="text"  name="space_id" value="{{data.space_id}}" hidden>{{/if}}
+                  {{#if data.project_id}}<input type="text"  name="project_id" value="{{data.project_id}}" hidden>{{/if}}
 
               <div>
                 <input type="text" name="name" id="" {{#if data.task.name}}value="{{data.task.name}}"{{/if}}>

@@ -12,8 +12,17 @@ projectController.get('/form',async(req,res)=>{
     if(req.query._id){
         let project = await Project.findById(req.query._id).lean().exec()
         data['project']=project; 
+        let space=await Workspace.findById(project.workspace).lean().exec()
+        space['all_statuses']=[...space.custom_statuses,space.default_statuses]
+        data['space']=space
+        console.log(data)
+    }else{
+        //New project display form
+        let space=await Workspace.findById(req.query.space_id).lean().exec()
+        space['all_statuses']=[...space.custom_statuses,space.default_statuses]
+        data['space']=space
     }
-    data['space_id']=req.query.space_id
+    
  
     res.render('projectFormView', {'data':data});
 })
@@ -31,7 +40,6 @@ projectController.post('/form',async (req,res)=>{
             let new_project=new Project(req.body)
             new_project.created_by= req.signedCookies.user
             new_project.workspace= req.body.space_id
-            console.log(new_project)
           let result= await new_project.save( )
           res.redirect(`/dashboard?space_id=${result.workspace}&project_id=${result._id}`);
 
@@ -48,6 +56,7 @@ projectController.get('/delete', async(req,res)=>{
         let space_id=project.workspace
         // Delete Project
         Project.findByIdAndDelete(req.query._id).exec()
+        await Task.remove({'workspace':space_id}).exec()
         res.redirect(`/dashboard?space_id=${space_id}`)
     } catch (error) {
         console.log(error);
