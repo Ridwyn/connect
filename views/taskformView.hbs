@@ -1,6 +1,6 @@
 <section class="task col m-4 p-2 ">
           <div class="task-header d-flex flex-row justify-content-between">
-            <div class="p-2">Status: {{#if data.task.status}}{{data.task.status}}{{/if}}</div>
+            <div class="p-2">Status:{{#if data.task.status}} <span style="color: {{data.task.status.color}};">{{data.task.status.status}}</span>{{/if}}</div>
             <div class="p-2">assignee of task</div>
             <div class="p-2">date created: {{#if data.task.created_at}}{{format_date data.task.created_at "ddd DD/MM/YYYY"}}{{/if}}</div>
             <div class="p-2">set due date: {{#if data.task.due_date}}{{data.task.due_date}}{{/if}} </div>
@@ -16,10 +16,20 @@
                 <p>Tags:
                   Bug, Sprint22
                 </p>
-                <textarea class="col" name="description" id="" rows="10" >  
+                <textarea class="col" name="description" id="" rows="10" cols="60" >  
                   {{#if data.task.description}}{{data.task.description}}{{/if}}
                 </textarea>
               </div>
+              <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01"> {{ data.active_status_template.name}}:</label>
+                  </div>
+                  <select class="custom-select" id="inputGroupSelect01" name="status">
+                    {{#each data.active_status_template.statuses}}
+                      <option value="{{stringify this}}" style="color: {{this.color}};">{{this.status}}</option>
+                    {{/each}}
+                  </select> 
+                </div>
 
               <div class="my-3">
                 <label for="#">Attachments/files: </label>

@@ -19,7 +19,7 @@ const taskSchema = new Schema({
   project:{type: Schema.Types.ObjectId, ref: 'Project' },
   workspace:{type: Schema.Types.ObjectId, ref: 'Workspace' },
   comments:[commentSchema],
-  status:{statusSchema}
+  status:statusSchema
 })
 
 module.exports = mongoose.model('Task', taskSchema)

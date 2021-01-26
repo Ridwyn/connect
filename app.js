@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var handlebars  = require('express-handlebars');
+var morgan = require('morgan')
 
 const mongoose = require('mongoose')
 
@@ -11,6 +12,9 @@ const mongoose = require('mongoose')
 
 var app = express();
 var secret='123'
+
+// Response ime logging
+app.use(morgan('dev'))
 
 // set JSON size limit
 var bodyParser = require('body-parser');
@@ -81,7 +85,8 @@ start();
 // implement project crud ###done 
 // implement simple task ##done
 // Add custom statuses to project ##done
-// Add status to task
+// Add status to task ##done
+// Display task on dashoard
 // Implemet status feature
 // Implement priority feature
 // implement members join

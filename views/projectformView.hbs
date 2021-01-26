@@ -1,6 +1,7 @@
 <section class="workspace col m-4 p-2 ">
           <div class="workspace-body row">
             <form class="col-8 left" action="/project/form" method="POST" >
+
                 {{#if data.project._id}}<input type="text"  name="_id" value="{{data.project._id}}" hidden>{{/if}}
                 {{#if data.space._id}}<input type="text"  name="space_id" value="{{data.space._id}}" hidden>{{/if}}
               {{data.space_id}}
@@ -17,10 +18,14 @@
                     {{#each data.space.all_statuses}}
                       <option value="{{this._id}}">{{ this.name}}</option>
                     {{/each}}
-                  </select>
+                  </select> <br>
+                  <div class="my-2">
+                    <label for="">Current Template: </label>
+                      <span class="badge bg-secondary">{{data.project.current_status_template.name}}</span>
+                  </div>
                 </div>
 
-                {{!-Custom status -  --}}
+                {{!-All status -  --}}
                <div class="my-2">
                   {{#each data.space.all_statuses}}
                     <div class="my-2">

@@ -5,17 +5,22 @@ let Project = require('../models/Project.js')
 let User = require('../models/User.js')
 
 
+
 projectController.get('/form',async(req,res)=>{
     let data={};
     
     // Check db for found project to update
     if(req.query._id){
         let project = await Project.findById(req.query._id).lean().exec()
-        data['project']=project; 
         let space=await Workspace.findById(project.workspace).lean().exec()
         space['all_statuses']=[...space.custom_statuses,space.default_statuses]
         data['space']=space
-        console.log(data)
+        project['current_status_template']=space.all_statuses.find((status_template)=>{
+            return status_template._id.toString() === project.active_status_template.toString()
+        })
+        data['project']=project; 
+        console.log(project['current_status_template'])
+        console.log(project.active_status_template)
     }else{
         //New project display form
         let space=await Workspace.findById(req.query.space_id).lean().exec()

@@ -7,17 +7,17 @@ module.exports = {
         }
       return options.inverse(this);
     },
-    stringify: function(date){
-        if (!date) {
+    stringify: function(data){
+        if (!data) {
             return;
         }
-        return JSON.stringify(date);
+        return JSON.stringify(data);
     },
-    objParse: function(date){
-        if (!date) {
+    objParse: function(data){
+        if (!data) {
             return;
         }
-        return JSON.parse(date);
+        return JSON.parse(data);
     },
     noSpaceStr:function(str){
       return str.split(' ').join('_')
@@ -38,6 +38,9 @@ module.exports = {
     ifnoteq:function (a, b, options) {
       if (a != b) { return options.fn(this); }
       return options.inverse(this);
+    },
+    data:function (content) {
+      return JSON.stringify(content);
     },
 
   }
