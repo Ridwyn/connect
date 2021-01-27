@@ -29,21 +29,38 @@ dashboardController.get('/:space_id?:project_id?',async (req,res)=>{
         // Project id to fetch product task
         if (req.query.project_id) {
             let project=await Project.findById(req.query.project_id).lean().exec();
-            let tasks=await Task.find({'project':req.query.project_id}).populate('workspace').lean().exec();
+            let tasks=await Task.find({'project':req.query.project_id}).lean().exec();
+            let space =await Workspace.findById(req.query.space_id).lean().exec();
+            data['tasks']=tasks
             data['current_project']=project
-
-            let space =tasks[0].workspace
             space['all_statuses']=[...space.custom_statuses,space.default_statuses]
             // Match the right status template
-            data['current_project']['active_status_template']=space.all_statuses.find((status_template)=>{
+            let active_status_template=space.all_statuses.find((status_template)=>{
                 return status_template._id.toString() === project.active_status_template.toString()
             });
-            data['current_project']['tasks']=tasks
             
-
-            data['tasks']=tasks
-            console.log(data['current_project'])
+            // Manipulating tasks array to store each task in coressponding status for Templating 
+            data['current_project']['active_status_template']=active_status_template;
+            data['active_status_template']=active_status_template;
+            let sData=active_status_template['statuses']
+            for (let j = 0; j < sData.length; j++) {
+                sData[j]['tasks']=[]
+            }
+                for (let i = 0; i < tasks.length; i++) {
+                    for (let j = 0; j < sData.length; j++) {
+                        if (tasks[i].status.status.toString() === sData[j].status.toString() ) {
+                            sData[j]['tasks'].push(tasks[i])
+                            console.log( )
+                        }
+                    }
+                    
+                }
+            // Storing tasks this way for easy templating purposes
+            data['current_project']['active_status_template']['statuses']=sData
         }
+
+        data['project_id']=req.query.project_id
+        data['space_id']=req.query.space_id
 
         res.render('dashboardView', {'data':data});
     } catch (error) {

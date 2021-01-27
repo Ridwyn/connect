@@ -46,7 +46,7 @@ taskController.post('/form',upload.any(),async (req,res)=>{
      }else{
          // Create new project
          try {
-            new Status(JSON.parse(req.body.status))   
+           req.body.status= new Status(JSON.parse(req.body.status))   
              let new_task=new Task(req.body)
              new_task.created_by= req.signedCookies.user
              new_task.workspace= req.body.space_id

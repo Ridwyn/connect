@@ -25,6 +25,10 @@ body{
 h1,h2,h3{
   color:#6f42c1;
 }
+.active{
+  background-color: var(--bg-primary)!important;
+  border-color: inherit!important;
+}
 
 .sub-heading{
   color:rgba(111, 66, 193, 0.5);;
@@ -85,6 +89,7 @@ header ul.dropdown-menu {
   /* min-width: 15rem!important; */
   background-color: #555;
 }
+
 
 main{
   margin: 0!important;

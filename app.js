@@ -86,7 +86,7 @@ start();
 // implement simple task ##done
 // Add custom statuses to project ##done
 // Add status to task ##done
-// Display task on dashoard
-// Implemet status feature
+// Display task on dashoard ##done
+// Implemet status feature ##done
 // Implement priority feature
 // implement members join

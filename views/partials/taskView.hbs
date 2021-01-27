@@ -3,13 +3,36 @@
     <button id="boardview" class="">BOARD VIEW</button>
 </div>
 
-<ul id="#structure" class="d-flex flex-row justify-content-between overflow-auto" style="list-style-type: none;">
-   {{!-- {{stringify data.current_project}} --}}
-   {{!-- {{#each qset}}
-{{#with quesarray}}
-{{[2]}}
-{{/with}}
-{{/each}} --}}
+<ul id="#structure" class="d-flex flex-row justify-content-between overflow-auto" style="list-style-type: none;min-height:400px">
+      
+   {{#each data.current_project.active_status_template.statuses}}
+   <li class="col"  >
+       <div class="card text-center m-3" style="background-color: {{this.color}}; border-top:4px solid gray">
+        <div >{{this.status}}</div>
+        </div>
+
+        <ul class="list-group m-3">   
+            {{#each this.tasks}}
+                <li class="my-1 list-group-item d-flex flex-row justify-content-between align-items-center ">
+                     <span>{{this.name}}</span> 
+                      <div class="dropdown">
+                            <a class="button  p-1" href="#" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
+                               <i class="fas fa-ellipsis-h"></i>
+                            </a>
+                            <ul class="dropdown-menu p-2" aria-labelledby="navbarDropdown" style="min-width:auto;inset: 0px 0px auto auto !important;right:0px!important;">
+                               <li class="my-2 d-flex flex-column">
+                                    <a href="/task/form?_id={{this._id}}" class="button m-1">
+                                    <i class="fas fa-pen"></i>
+                                    </a>
+                                   <a href="/task/delete?_id={{this._id}}" class="button m-1"><i class="fas fa-times text-danger"></i></a>  
+                               </li>
+                            </ul>
+                      </div>
+                </li>
+            {{/each}}
+        </ul>
+    </li>
+   {{/each}}
 
 </ul>
 

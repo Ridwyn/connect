@@ -1,11 +1,12 @@
+    {{assign 'current_project_id' data.project_id}}
+    {{assign 'current_space_id' data.space_id}}
     <div class="nav-category">
                 <div class="border-top border-bottom p-2  d-flex flex-wrap justify-content-between align-items-center ">
                     <h6>WorkSpaces</h6>
                     <a class="p-1 m-2" href="/workspace/form">+ New </a>
-                    <ul class="list-group">
-                                               
-                        {{#each data.spaces }}    
-                        <li class="list-group-item d-flex justify-content-between px-2 py-1">
+                    <ul class="list-group">                                               
+                        {{#each data.spaces }}
+                        <li class="list-group-item d-flex justify-content-between px-2 py-1 {{#ifeq this._id @root.current_space_id}} active{{/ifeq}}">
                             <a href="/dashboard/?space_id={{this._id}}" class="button m-1">{{this.name}}</a>
                             <a href="/workspace/form?_id={{this._id}}" class="button m-1">
                                 <i class="fas fa-pen"></i>
@@ -23,8 +24,10 @@
                     {{#if data.current_space }} 
                     <a href="/project/form?space_id={{data.current_space._id}}" class="m-2 p-1">+ New </a>
                       <ul class="list-group ">
+                          
+                          
                         {{#each data.projects }}
-                        <li class="list-group-item d-flex justify-content-between px-2 py-1">
+                        <li class="list-group-item d-flex justify-content-between px-2 py-1{{#ifeq this._id @root.current_project_id}} active{{/ifeq}}" >
                             <a href="/dashboard/?project_id={{this._id}}&space_id={{this.workspace}}" class="button m-1">{{this.name}}</a>
                             <a href="/project/form?_id={{this._id}}" class="button m-1">
                                 <i class="fas fa-pen"></i>
@@ -37,15 +40,15 @@
                     {{/if}}
                    
                 </div>
-
                  <div class="border-top border-bottom p-2  d-flex flex-wrap justify-content-between align-items-center">
                     <h6 class="text-bold">Tasks </h6>
-                    {{#if data.current_project }} 
+                    {{#if data.current_project }}
+                   
                             <a href="/task/form?space_id={{data.current_project.workspace}}&project_id={{data.current_project._id}}" class=" button p-1"><i class="fas fa-plus"> Task</i></a>
-                        <ul class="list-group">
+                        <ul class="list-group" >
                         {{#each data.tasks }}
-                        <li class="list-group-item d-flex justify-content-between px-2 py-1">
-                            <a href="/dashboard/?project_id={{this.project}}&space_id={{this.workspace}}&task_id={{this_id}}" class="button m-1">{{this.name}}</a>
+                        <li class="list-group-item d-flex justify-content-between px-2 py-1" >
+                            <a href="/dashboard/?project_id={{this.project}}&space_id={{this.workspace}}&task_id={{this._id}}" class="button m-1">{{this.name}}</a>
                             <a href="/task/form?_id={{this._id}}" class="button m-1">
                                 <i class="fas fa-pen"></i>
                             </a>

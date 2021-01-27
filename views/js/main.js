@@ -58,6 +58,20 @@ function removeStatus(el) {
   el.parentElement.remove()
 }
 
+function addActiveLi(li){
+  // Select all list items 
+  var listItems = li.parentElement.children; 
+    console.log(listItems)
+    console.log(li)
+  // Remove 'active' tag for all list items 
+  for (let i = 0; i < listItems.length; i++) { 
+      listItems[i].classList.remove("active"); 
+  } 
+  
+  // Add 'active' tag for currently selected item 
+  li.classList.add("active"); 
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
 //    navtemplate();
@@ -65,5 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
    changeViewStructure();
    addStatus;
    removeStatus;
+   addActiveLi
 //    changeViewStructure();
 });
