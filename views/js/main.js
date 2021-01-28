@@ -80,5 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
    addStatus;
    removeStatus;
    addActiveLi
+
 //    changeViewStructure();
 });

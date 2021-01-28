@@ -5,6 +5,7 @@
             <div class="p-2">date created: {{#if data.task.created_at}}{{format_date data.task.created_at "ddd DD/MM/YYYY"}}{{/if}}</div>
             <div class="p-2">set due date: {{#if data.task.due_date}}{{data.task.due_date}}{{/if}} </div>
           </div>
+
           <div class="task-body row">
             <form class="col-8 left" action="/task/form" method="POST" enctype="multipart/form-data">
                   {{#if data.task._id}}<input type="text"  name="_id" value="{{data.task._id}}" hidden>{{/if}}
@@ -30,11 +31,17 @@
                 </div>
                 </div>
 
-
-                <textarea class="col" name="description" id="" rows="10" cols="60" >  
+              <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.4.25/jodit.min.css"/>
+              <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.4.25/jodit.min.js"></script>
+                <textarea class="col" name="description" id="task_description" rows="10" cols="60" >  
                   {{#if data.task.description}}{{data.task.description}}{{/if}}
                 </textarea>
-              </div>
+                <script>
+                       var editor = new Jodit('#task_description');
+                     // editor.value = '<p>start</p>';
+                  </script>
+
+           
 
               <div class="my-3">
                 <label for="#">Attachments/files: </label>
@@ -44,10 +51,13 @@
             </form>
 
 
-            {{!-- Comment Section --}}
+           
+
+          </div>
+           {{!-- Comment Section --}}
             <div class="col right d-flex flex-column justify-content-between ">
               <div>
-                <h2>Task History</h2>
+                <h2>Task Comments</h2>
                 <p>User1 moved task</p>
                 <p>User1 assigned task</p>
                 <p>User2 commented: lorem ipsum</p>
@@ -60,6 +70,4 @@
                 </div>
               </form>
             </div>
-
-          </div>
 </section>

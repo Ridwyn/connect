@@ -88,5 +88,9 @@ start();
 // Add status to task ##done
 // Display task on dashoard ##done
 // Implemet status feature ##done
+// implement members join  ##done
 // Implement priority feature
-// implement members join
+//Implement unjoin from workspace
+//implement task text editor for description 
+//implement task comments 
+// implement git database to asve attachment from task

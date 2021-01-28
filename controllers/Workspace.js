@@ -1,10 +1,14 @@
 var express = require('express')
 var workspaceController = express.Router()
 let Workspace = require('../models/Workspace.js')
+let User = require('../models/User.js')
 let Default_Status = require('../models/Default_status.js')
 let Task = require('../models/Task.js')
 let Project = require('../models/Project.js')
-const mnemonicId = require('mnemonic-id');
+let mnemonicId = require('mnemonic-id');
+let emailTemplate = require('../helpers/emailTemplate');
+
+const nodemailer = require("nodemailer");
 
 
 workspaceController.get('/form',async(req,res)=>{
@@ -54,6 +58,69 @@ workspaceController.get('/delete', async(req,res)=>{
 
 })
 
+workspaceController.get('/invite',async(req,res)=>{
+    let data={};
+    data['space_id']=req.query._id;
+    data['user']=req.signedCookies.user;
+    res.render('inviteFormView',{'data':data})
+})
+
+workspaceController.post('/invite',async(req,res)=>{
+
+    let user={email:"connect0440@outlook.com", pass:"ConnectPms44"}
+
+
+    let space = await Workspace.findById(req.body.space_id).lean().exec()
+    let mail={
+        subject: `Connect! Join ${req.body.inviter_name}  on ${space.name}`,
+        from :'connect0440@outlook.com',
+        to:req.body.invitees.split(' ').join(", "),
+        html:emailTemplate('#',space.join_code),
+    }
+
+
+    // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+    let transporter = nodemailer.createTransport({
+        service: "Outlook",
+        auth: {
+            user:user.email,
+            pass: user.pass
+        },
+        tls:{
+            rejectUnauthorized:false
+        }
+    });
+    
+    let info = await transporter.sendMail(mail);
+    console.log(info);
+    res.redirect('/dashboard')
+})
+
+workspaceController.get('/join',async (req,res)=>{
+    let data={}
+    data['user']=req.signedCookies.user
+    res.render('joinFormView',{'data':data})
+})
+workspaceController.post('/join', async(req,res)=>{
+    let data={}
+    let user= await User.findById(req.body.user_id).exec()
+    let space= await Workspace.findOne({'join_code':req.body.join_code.trim()}).exec()
+    let userInSpace= space.members.find(member=>{
+        return member._id.toString() === user._id.toString()
+    })
+    console.log(userInSpace)
+    if(!userInSpace){
+        space.members.push(user)
+        await space.save()
+        res.redirect('/dashboard')
+    }else{
+        data['errorMsg']='Already a Memebr of this Workspace';
+        res.render('joinFormView',{'data':data})
+    }
+    
+
+    
+})
 
 
 

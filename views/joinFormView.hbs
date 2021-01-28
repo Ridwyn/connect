@@ -1,0 +1,9 @@
+<form action="/workspace/join" method="post">
+    <input type="text" name="user_id" value="{{data.user._id}}" hidden="true">
+
+      <span class="text-danger">{{data.errorMsg}}</span><br>  
+    <label for="" class="my-2">Invitees email: </label> <br>
+    <input type="text" name="join_code" placeholder="Enter join code" required style="min-width: 360px;">
+
+    <input type="submit" value="Send Invite">
+</form>

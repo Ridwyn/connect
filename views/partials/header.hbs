@@ -1,7 +1,7 @@
 <header class="navbar navbar-expand-sm ">
   <div class="container-fluid">
      <a href="/dashboard" class="navbar-brand" style="background-color: inherit;"><img  src="/images/connect_logo.svg" width="50"  class="img-fluid" alt=""></a>  
-            
+            <span>{{data.user.name}}</span>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -16,6 +16,9 @@
                     </li>
                     <li class="nav-item m-1">
                         <a href="#" class="p-1">Notification</a>
+                    </li>
+                    <li class="nav-item m-1">
+                        <a href="/workspace/join" class="p-1 ">Join A Space </a>
                     </li>
                     {{#if data.current_space }}
                         <li class="nav-item m-1  dropdown">
