@@ -20,7 +20,7 @@ module.exports = {
         return JSON.parse(data);
     },
     noSpaceStr:function(str){
-      return str.split(' ').join('_')
+      return String(str).split(' ').join('_')
     },
     assign:function (varName, varValue, options) {
         if (!options.data.root) {

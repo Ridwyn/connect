@@ -10,6 +10,10 @@ const workspaceSchema = new Schema({
   created_by:{ type : userSchema , required : true },
   join_code: { type : String ,  required : true },
   members:[userSchema],
+  usersAllowedToEdit:[{type: Schema.Types.ObjectId, ref: 'User'}],
+  usersAllowedToDelete:[{type: Schema.Types.ObjectId, ref: 'User'}],
+  canEdit:{type:Boolean, default:false},
+  canDelete:{type:Boolean, default:false},
   custom_statuses:[status_templateSchema],
   default_statuses:{type:Schema.Types.Mixed, default:{'_id':mongoose.Types.ObjectId(),'name':'basic',
   'statuses':
@@ -20,4 +24,22 @@ const workspaceSchema = new Schema({
   ]}},
 
 })
+
+workspaceSchema.methods.checkCanEdit = function(user_id) {
+  for (let i = 0; i < this.usersAllowedToEdit.length; i++) {
+    if(user_id.toString()===this.usersAllowedToEdit[i].toString()){
+      this.canEdit=true;
+    }
+  }
+    return this;
+};
+workspaceSchema.methods.checkCanDelete = function(user_id) {
+  for (let i = 0; i < this.usersAllowedToDelete.length; i++) {
+    if(user_id.toString()===this.usersAllowedToDelete[i].toString()){
+      this.canDelete=true;
+    }
+  }
+    return this;
+};
+
 module.exports = mongoose.model('Workspace', workspaceSchema)

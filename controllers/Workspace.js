@@ -36,6 +36,8 @@ workspaceController.post('/form',async (req,res)=>{
             new_workspace.created_by= req.signedCookies.user
             new_workspace.join_code=mnemonicId.createUniqueNameId();
             new_workspace.members=[req.signedCookies.user];
+            new_workspace.usersAllowedToEdit=[req.signedCookies.user._id];
+            new_workspace.usersAllowedToDelete=[req.signedCookies.user._id];
             results=await new_workspace.save()
             res.redirect(`/dashboard?space_id=${results._id}`);
         } catch (error) {
@@ -45,10 +47,10 @@ workspaceController.post('/form',async (req,res)=>{
 
 })
 
-workspaceController.get('/delete', async(req,res)=>{
+workspaceController.post('/delete', async(req,res)=>{
     try {
-        let space_id=req.query._id
-        Workspace.findByIdAndDelete(req.query._id).exec()
+        let space_id=req.body.space_id
+        Workspace.findByIdAndDelete(req.body.space_id).exec()
         await Project.remove({'workspace':space_id}).exec()
         await Task.remove({'workspace':space_id}).exec()
         res.redirect('/dashboard')
@@ -58,21 +60,15 @@ workspaceController.get('/delete', async(req,res)=>{
 
 })
 
-workspaceController.get('/invite',async(req,res)=>{
-    let data={};
-    data['space_id']=req.query._id;
-    data['user']=req.signedCookies.user;
-    res.render('inviteFormView',{'data':data})
-})
-
 workspaceController.post('/invite',async(req,res)=>{
 
     let user={email:"connect0440@outlook.com", pass:"ConnectPms44"}
 
+    let inviter_name=req.signedCookies.user.name;
 
     let space = await Workspace.findById(req.body.space_id).lean().exec()
     let mail={
-        subject: `Connect! Join ${req.body.inviter_name}  on ${space.name}`,
+        subject: `Connect! Join ${inviter_name}  on ${space.name}`,
         from :'connect0440@outlook.com',
         to:req.body.invitees.split(' ').join(", "),
         html:emailTemplate('#',space.join_code),
@@ -96,19 +92,26 @@ workspaceController.post('/invite',async(req,res)=>{
     res.redirect('/dashboard')
 })
 
+
+
 workspaceController.get('/join',async (req,res)=>{
     let data={}
     data['user']=req.signedCookies.user
     res.render('joinFormView',{'data':data})
 })
+
 workspaceController.post('/join', async(req,res)=>{
     let data={}
     let user= await User.findById(req.body.user_id).exec()
     let space= await Workspace.findOne({'join_code':req.body.join_code.trim()}).exec()
+    if (!space) {
+        data['errorMsg']='Incorrect Join Code';
+        res.render('joinFormView',{'data':data})
+    }
+
     let userInSpace= space.members.find(member=>{
         return member._id.toString() === user._id.toString()
     })
-    console.log(userInSpace)
     if(!userInSpace){
         space.members.push(user)
         await space.save()
@@ -117,9 +120,15 @@ workspaceController.post('/join', async(req,res)=>{
         data['errorMsg']='Already a Memebr of this Workspace';
         res.render('joinFormView',{'data':data})
     }
-    
+})
 
-    
+workspaceController.post('/leave',async(req,res)=>{
+    console.log(req.body);
+    let user= req.signedCookies.user
+    let space= await Workspace.findById(req.body.space_id).exec()
+    space.members.pull({'_id':user._id})
+    await space.save()
+    res.redirect('/dashboard')
 })
 
 

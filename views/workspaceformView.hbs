@@ -24,7 +24,7 @@
                 {{!-- Default Status collapse --}}
                 <div>                  
                   {{#each data.space.default_statuses}}
-                      <button class="btn btn-primary " type="button" data-toggle="collapse" data-target="#{{@key}}" aria-expanded="false" aria-controls="collapseExample">
+                      <button class=" " type="button" data-toggle="collapse" data-target="#{{@key}}" aria-expanded="false" aria-controls="collapseExample">
                         {{@key}}
                       </button>
                       {{#each this}}
@@ -40,7 +40,7 @@
                    {{!-Custom status -  --}}
                <div class="my-2">
                   {{#each data.space.custom_statuses}}
-                      <button class="btn btn-primary " type="button" data-toggle="collapse" data-target="#{{this.name}}" aria-expanded="false" aria-controls="collapseExample">
+                      <button class=" " type="button" data-toggle="collapse" data-target="#{{this.name}}" aria-expanded="false" aria-controls="collapseExample">
                         {{this.name}}
                       </button>
                       {{#each this.statuses}}

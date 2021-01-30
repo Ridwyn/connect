@@ -2,6 +2,7 @@ let express = require('express')
 let projectController = express.Router()
 let Workspace = require('../models/Workspace.js')
 let Project = require('../models/Project.js')
+let Task = require('../models/Task.js')
 let User = require('../models/User.js')
 
 
@@ -45,6 +46,8 @@ projectController.post('/form',async (req,res)=>{
             let new_project=new Project(req.body)
             new_project.created_by= req.signedCookies.user
             new_project.workspace= req.body.space_id
+            new_project.usersAllowedToEdit= [req.signedCookies.user._id]
+            new_project.usersAllowedToDelete= [req.signedCookies.user._id]
           let result= await new_project.save( )
           res.redirect(`/dashboard?space_id=${result.workspace}&project_id=${result._id}`);
 

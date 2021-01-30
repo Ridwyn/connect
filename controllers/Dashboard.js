@@ -14,21 +14,44 @@ dashboardController.get('/:space_id?:project_id?',async (req,res)=>{
     try {
         let data={}   
         // Find all workspace for currently lgged member
-        let spaces=await Workspace.find({ 'members' :  req.signedCookies.user }).lean().exec();
+        let spaces=await Workspace.find({ 'members' :  req.signedCookies.user }).exec();
+        spaces.forEach(space => {
+            space.checkCanEdit(req.signedCookies.user._id,function (err, doc) {
+            })
+            space.checkCanDelete(req.signedCookies.user._id,function (err, doc) {
+            })
+        });
         data['user']=req.signedCookies.user;
-        data['spaces']=spaces
+        data['spaces']=spaces.map(space=>{return space.toJSON()})
+
 
         // Space id to fetch space projects
         if (req.query.space_id) {
-            let space=await Workspace.findById(req.query.space_id).lean().exec();
-            let projects=await Project.find({'workspace':space}).lean().exec();
+            let space=await Workspace.findById(req.query.space_id).exec();
+            // Handle checks for access level
+            space.checkCanEdit(req.signedCookies.user._id,function (err, doc) {})
+            space.checkCanDelete(req.signedCookies.user._id,function (err, doc) {})
+            space=space.toJSON()
+
+            let projects=await Project.find({'workspace':req.query.space_id}).exec();
+            console.log(projects);
+            projects.forEach(project => {
+                project.checkCanEdit(req.signedCookies.user._id,function (err, doc) {
+                })
+                project.checkCanDelete(req.signedCookies.user._id,function (err, doc) {
+                })
+            });
+            
             space['all_statuses']=[...space.custom_statuses,space.default_statuses]
             data['current_space']=space;
-            data['projects']=projects;
+            data['projects']=projects.map(project=>{return project.toJSON()});
         }
         // Project id to fetch product task
         if (req.query.project_id) {
-            let project=await Project.findById(req.query.project_id).lean().exec();
+            let project=await Project.findById(req.query.project_id).exec();
+            project.checkCanEdit(req.signedCookies.user._id,function (err, doc) {})
+            project.checkCanDelete(req.signedCookies.user._id,function (err, doc) {})
+            project=project.toJSON()
             let tasks=await Task.find({'project':req.query.project_id}).lean().exec();
             let space =await Workspace.findById(req.query.space_id).lean().exec();
             data['tasks']=tasks

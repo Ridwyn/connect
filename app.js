@@ -39,7 +39,9 @@ app.set('view engine', 'hbs');
 app.engine('hbs', handlebars({
     extname: '.hbs',
     layoutsDir: __dirname + '/views/layouts',
-    helpers:require('./helpers/handlebars.js')
+    helpers:require('./helpers/handlebars.js'),
+    // ...implement newly added insecure prototype access
+    // handlebars: allowInsecurePrototypeAccess(Handlebars),
 }));
 
 
@@ -89,8 +91,13 @@ start();
 // Display task on dashoard ##done
 // Implemet status feature ##done
 // implement members join  ##done
+//Implement unjoin from workspace ##done
+//implement Access level canEdit, canDelete on Project and Workspace ##done
+//implement task text editor for description ##done
+// Implement assignee of task
+// Implement due date of task
 // Implement priority feature
-//Implement unjoin from workspace
-//implement task text editor for description 
+
+
 //implement task comments 
 // implement git database to asve attachment from task

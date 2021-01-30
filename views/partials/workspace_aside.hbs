@@ -1,0 +1,107 @@
+<div class="border-top border-bottom p-2  d-flex flex-column flex-wrap  align-items-start ">
+    <div class="my-2">
+         <h6 class="d-inline">WorkSpaces</h6>
+          <a class="p-1 m-2" href="/workspace/form">+ New </a>
+    </div>
+
+    
+    <div class=" btn-group  d-flex flex-row-reverse ">
+        {{#each data.spaces }}
+        <a class="button m-1  p-1" href="#" id="spaceDropdown{{this._id}}"   data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-ellipsis-h"></i>
+        </a>
+        <a href="/dashboard/?space_id={{this._id}}" class="button m-1 {{#ifeq this._id @root.current_space_id}} active{{/ifeq}}">
+            {{this.name}}
+        </a>                       
+        <ul class="dropdown-menu p-2 text-center " aria-labelledby="spaceDropdown{{this._id}}" style="">                                              
+            <li class="list-group-item d-flex flex-column  justify-content-between px-2 py-1 {{#ifeq this._id @root.current_space_id}} active{{/ifeq}}">                    
+                {{#if this.canEdit}}
+                    <a href="/workspace/form?_id={{this._id}}" class="button m-1">
+                                    <i class="fas fa-pen"></i>
+                    </a>
+                {{/if}}
+                <a type="button" class="button m-1" data-bs-toggle="modal" data-bs-target="#invite{{noSpaceStr this._id}}">
+                                invite
+                </a>
+                <a type="button" class="button m-1" data-bs-toggle="modal" data-bs-target="#leave{{noSpaceStr this._id}}">
+                        leave
+                </a>
+                
+                {{#if this.canDelete}}
+                <a type="button" class="button m-1" data-bs-toggle="modal" data-bs-target="#delete{{noSpaceStr this._id}}"><i class="fas fa-times text-danger"></i></a>
+                {{/if}}
+
+                           
+            </li>
+            {{/each}}               
+        </ul>
+    </div>
+                   
+</div>
+
+{{#each data.spaces }} 
+<div class="modal fade" id="invite{{noSpaceStr this._id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="invite{{noSpaceStr this._id}}Label" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title " id="invite{{noSpaceStr this._id}}Label">Send Email Invites</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                       <form action="/workspace/invite" method="post">
+                                            <input type="text" name="space_id" value="{{this._id}}" hidden="true">
+
+                                            <label for="" class="my-2">Invitees email: </label>
+                                            <span data-bs-toggle="tooltip" data-bs-placement="top" title="separate emails with space i.e a@email.com b@email.com"><i class="fas fa-info-circle"></i></span>
+                                             <br>
+                                            <input type="text" name="invitees" placeholder="a@email.com b@email.com" required style="min-width: 360px;">
+
+                                            <button type="submit" class="text-succes" >Send Invite</button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                    </div>
+                                    </div>
+                                </div>
+</div>
+
+<div class="modal fade" id="leave{{noSpaceStr this._id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="leave{{noSpaceStr this._id}}Label" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-danger" id="leave{{noSpaceStr this._id}}Label">Leave Workspace</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to leave this {{this.name}}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form action="/workspace/leave" method="post">
+                                        <input type="text" name="space_id" value="{{this._id}}" hidden="true">
+                                            <button type="submit" class="button text-danger">Leave</button>
+                                        </form>
+                                    </div>
+                                    </div>
+                                </div>
+</div>
+
+<div class="modal fade" id="delete{{noSpaceStr this._id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete{{noSpaceStr this._id}}Label" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-danger" id="delete{{noSpaceStr this._id}}Label">Delete Workspace</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to Delete {{this.name}}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form action="/workspace/delete" method="post">
+                                        <input type="text" name="space_id" value="{{this._id}}" hidden="true">
+                                            <button type="submit" class="button text-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                    </div>
+                                </div>
+</div>
+{{/each}}
