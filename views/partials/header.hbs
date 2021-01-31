@@ -14,12 +14,20 @@
        <li class="nav-item m-1">
                         <a href="#" class="p-1">Favourites</a>
                     </li>
-                    <li class="nav-item m-1">
-                        <a href="#" class="p-1">Notification</a>
-                    </li>
-                    <li class="nav-item m-1">
-                        <a href="/workspace/join" class="p-1 ">Join A Space </a>
-                    </li>
+                    {{#if data.assigned_tasks}}
+                        <li class="nav-item m-1  dropdown">
+                            <a class="nav-link dropdown-toggle p-1" href="#" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
+                                Assigned task
+                            </a>
+                            <ul class="dropdown-menu p-2" aria-labelledby="navbarDropdown">
+                                {{#each data.assigned_tasks}}
+                                 <li class="my-2 d-flex flex-row justify-content-between" style="min-width: 100px;">
+                                    <a class="button d-inline m-1 p-1 " href="/task/form?_id={{this._id}}">{{this.name}}</a>
+                                    <span class="badge m-1 p-1" style="background-color:{{this.status.color}}">{{this.status.status}}</span>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </li>                    {{/if}}
                     {{#if data.current_space }}
                         <li class="nav-item m-1  dropdown">
                             <a class="nav-link dropdown-toggle p-1" href="#" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">

@@ -1,9 +1,33 @@
+{{#if data.task}}
+{{assign 'task_id' data.task._id}}
+{{/if}}
 <section class="task col m-4 p-2 ">
           <div class="task-header d-flex flex-row justify-content-between">
-            <div class="p-2">Status:{{#if data.task.status}} <span style="color: {{data.task.status.color}};">{{data.task.status.status}}</span>{{/if}}</div>
-            <div class="p-2">assignee of task</div>
-            <div class="p-2">date created: {{#if data.task.created_at}}{{format_date data.task.created_at "ddd DD/MM/YYYY"}}{{/if}}</div>
-            <div class="p-2">set due date: {{#if data.task.due_date}}{{data.task.due_date}}{{/if}} </div>
+            <div class="p-2">
+              <span class="fw-light">Status:</span> 
+              {{#if data.task.status}} <span class="badge p-2"  style="background-color: {{data.task.status.color}};">{{data.task.status.status}}</span>{{/if}}</div>
+            <div class="p-2">
+              <span class="fw-light">Assignees of task</span> 
+              <a class="button m-1  p-1" href="#" id="assignees"   data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-ellipsis-h"></i>
+              </a>
+              <ul class="dropdown-menu p-2 text-center " aria-labelledby="assignees" style="">  
+                {{#each data.task.assignees}}                                            
+                <li class="list-group-item d-flex flex-row justify-content-between align-items-center px-2 py-1" >
+                  <span>{{this.name}}</span>
+                  <a href="task/remove_assignee?assignee_id={{this._id}}&task_id={{@root.task_id}}" class="button m-1"><i class="fas fa-times text-danger"></i></a>                  
+                </li>
+                {{/each}}
+              </ul>
+            </div>
+            <div class="p-2">
+              <span class="fw-light">Date created:</span> 
+              <span>{{#if data.task.created_at}}{{format_date data.task.created_at "ddd DD/MM/YYYY"}}{{/if}}</span> 
+            </div>
+            <div class="p-2">
+              <span class="fw-light">Due date:</span>  
+              <span>{{#if data.task.due_date}}{{format_date data.task.due_date "ddd DD/MM/YYYY LT"}}{{/if}} </span>
+            </div>
           </div>
 
           <div class="task-body row">
@@ -12,62 +36,86 @@
                   {{#if data.space_id}}<input type="text"  name="space_id" value="{{data.space_id}}" hidden>{{/if}}
                   {{#if data.project_id}}<input type="text"  name="project_id" value="{{data.project_id}}" hidden>{{/if}}
 
-              <div>
                 <p>Tags:
                   Bug, Sprint22
                 </p>
-                <div class="d-flex justify-content-between align-items-center">
                   <div>
-                    <input type="text" name="name" id="" {{#if data.task.name}}value="{{data.task.name}}"{{/if}}>
+                    <input type="text" name="name" class="mb-3" {{#if data.task.name}}value="{{data.task.name}}"{{/if}}>
+                  </div>
+                <div class="row justify-content-between align-items-start">
+                    <div class="col mb-3">
+                    <label class="input-group-text fw-light" for=""> Select Members to Assign:</label>
+                    <select class="form-select "  id="" name="assignees" size="3" multiple>
+                      {{#each data.space.members}}
+                        <option value="{{this._id}}" >{{this.name}}</option>
+                      {{/each}}
+                    </select> 
+                    </div>
+                    <div class="col mb-3">
+                      <label class="input-group-text fw-light" for=""> Due date:</label>
+                    <input type="datetime-local" name="due_date" style="width:inherit" {{#if data.task.due_date}}value="{{format_date data.task.due_date 'YYYY-MM-DDTHH:mm'}}" {{/if}}>
+                    </div>
+
+                    <div class="col mb-3">
+                    <label class="input-group-text fw-light" for="inputGroupSelect01"> {{ data.active_status_template.name}}:</label>
+                    <select class="custom-select" id="inputGroupSelect01" name="status" style="width: inherit;">
+                      {{#each data.active_status_template.statuses}}
+                        <option value="{{stringify this}}" style="color: {{this.color}};">{{this.status}}</option>
+                      {{/each}}
+                    </select> 
+                    </div>
                   </div>
 
-                  <div class="d-flex flex-wrap mb-3">
-                    <label class="input-group-text" for="inputGroupSelect01"> {{ data.active_status_template.name}}:</label>
-                  <select class="custom-select" id="inputGroupSelect01" name="status">
-                    {{#each data.active_status_template.statuses}}
-                      <option value="{{stringify this}}" style="color: {{this.color}};">{{this.status}}</option>
-                    {{/each}}
-                  </select> 
-                </div>
-                </div>
 
-              <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.4.25/jodit.min.css"/>
-              <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.4.25/jodit.min.js"></script>
+
+                <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.4.25/jodit.min.css"/>
+                <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.4.25/jodit.min.js"></script>
                 <textarea class="col" name="description" id="task_description" rows="10" cols="60" >  
                   {{#if data.task.description}}{{data.task.description}}{{/if}}
                 </textarea>
                 <script>
-                       var editor = new Jodit('#task_description');
-                     // editor.value = '<p>start</p>';
-                  </script>
+                    var editor = new Jodit('#task_description',{
+                       //theme: "dark" 
+                    });
+                </script>
 
            
 
               <div class="my-3">
-                <label for="#">Attachments/files: </label>
+                <label class="fw-light">Attachments/files: </label>
                 <input multiple="" type="file" name="attachments">
               </div>
-               <input type="submit" value="Submit">
+               <input type="submit" value="Save">
             </form>
 
 
            
 
-          </div>
+          
            {{!-- Comment Section --}}
-            <div class="col right d-flex flex-column justify-content-between ">
+            <div class="col-4 right d-flex flex-column justify-content-between ">
               <div>
-                <h2>Task Comments</h2>
-                <p>User1 moved task</p>
-                <p>User1 assigned task</p>
-                <p>User2 commented: lorem ipsum</p>
+                <h3>Task Comments</h3>
+                {{#each data.comments}}
+                <div>
+                    <span class="fw-light">{{this.created_by.name}}: </span>
+                    <span>{{this.comment}}</span>
+                    {{#if this.canDelete}}
+                    <span><a class="button" href="comment/delete?_id={{this._id}}"><i class="fas fa-times text-danger"></i></a></span>
+                    {{/if}}
+                </div>
+                {{/each}}
               </div>
               
-              <form action="" method="">
+              
+              <form action="/task/comment" method="post">
                 <div class="my-3">
-                  <input type="text" name="text" placeholder="comment on this task">
+                  <input type="text" name="task_id" value ="{{data.task._id}}" hidden>
+
+                  <input type="text" name="comment" placeholder="comment on this task">
                   <input type="submit" value="Comment">
                 </div>
               </form>
             </div>
+           </div>
 </section>

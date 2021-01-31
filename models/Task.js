@@ -15,10 +15,10 @@ const taskSchema = new Schema({
   created_at:{ type: Date, default: Date.now },
   created_by:userSchema,
   priority:String,
-  assignees:[userSchema],
+  assignees:[{type: Schema.Types.ObjectId, ref: 'User' }],
   project:{type: Schema.Types.ObjectId, ref: 'Project' },
   workspace:{type: Schema.Types.ObjectId, ref: 'Workspace' },
-  comments:[commentSchema],
+  comments:[{type: Schema.Types.ObjectId, ref: 'Comment' }],
   status:statusSchema
 })
 

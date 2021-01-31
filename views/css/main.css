@@ -176,3 +176,37 @@ aside::after{
 .status-form label{
  padding: 0.5rem;
 }
+
+.alert{
+  height:100%;
+  width:100%;
+  margin:0;
+  padding:0;
+}
+
+.alert {
+  -moz-animation: cssAnimation 0s ease-in 3s forwards;
+  /* Firefox */
+  -webkit-animation: cssAnimation 0s ease-in 3s forwards;
+  /* Safari and Chrome */
+  -o-animation: cssAnimation 0s ease-in 3s forwards;
+  /* Opera */
+  animation: cssAnimation 0s ease-in 3s forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+@keyframes cssAnimation {
+  to {
+      width:0;
+      height:0;
+      overflow:hidden;
+  }
+}
+
+
+.jodit-toolbar-editor-collection_size_middle.jodit-toolbar-editor-collection_mode_horizontal{
+  background-color: #e9ecef;
+}
+.jodit-status-bar{
+  background-color: #e9ecef;
+}

@@ -94,10 +94,11 @@ start();
 //Implement unjoin from workspace ##done
 //implement Access level canEdit, canDelete on Project and Workspace ##done
 //implement task text editor for description ##done
-// Implement assignee of task
-// Implement due date of task
-// Implement priority feature
+// Implement assignee of task    ##done
+// Implement due date of task    ##done
+//implement task comments   ##done
 
 
-//implement task comments 
+// Implement click on workspace and disyplay all task
+//Implement notes personal for users
 // implement git database to asve attachment from task
