@@ -72,6 +72,10 @@ function addActiveLi(li){
   li.classList.add("active"); 
 }
 
+function changeSelectColor(el) {
+  el.style.color = el.options[el.selectedIndex].style.color;
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
 //    navtemplate();

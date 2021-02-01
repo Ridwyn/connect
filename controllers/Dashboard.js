@@ -33,17 +33,18 @@ dashboardController.get('/:space_id?:project_id?',async (req,res)=>{
             space.checkCanEdit(req.signedCookies.user._id,function (err, doc) {})
             space.checkCanDelete(req.signedCookies.user._id,function (err, doc) {})
             space=space.toJSON()
+            space['all_statuses']=[...space.custom_statuses,space.default_statuses]
 
-            let projects=await Project.find({'workspace':req.query.space_id}).exec();
+            let projects=await Project.find({'workspace':req.query.space_id}).populate().exec();
             console.log(projects);
-            projects.forEach(project => {
+            projects.map(project => {
                 project.checkCanEdit(req.signedCookies.user._id,function (err, doc) {
                 })
                 project.checkCanDelete(req.signedCookies.user._id,function (err, doc) {
                 })
             });
             
-            space['all_statuses']=[...space.custom_statuses,space.default_statuses]
+            
             data['current_space']=space;
             data['projects']=projects.map(project=>{return project.toJSON()});
         }

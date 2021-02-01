@@ -32,6 +32,8 @@ taskController.get('/form',async (req,res)=>{
         data['comments']=comments.map(comment=>{return comment.toJSON()})
         data['space']=space
     }else{
+        let space =await Workspace.findById(req.query.space_id).lean().exec()
+        let project =await Project.findById(req.query.project_id).lean().exec()
         data['space_id']=req.query.space_id
         data['project_id']=req.query.project_id
         data['user_id']=req.signedCookies.user._id
@@ -39,8 +41,7 @@ taskController.get('/form',async (req,res)=>{
         data['active_status_template']=space.all_statuses.find((status_template)=>{
             return status_template._id.toString() === project.active_status_template.toString()
         });
-        let space =await Workspace.findById(req.query.space_id).lean().exec()
-        let project =await Project.findById(req.query.project_id).lean().exec()
+
         data['space']=space
         data['project']=project
     }
@@ -104,7 +105,7 @@ taskController.post('/comment', async(req,res)=>{
     new_comment.task=req.body.task_id
     new_comment.created_by=req.signedCookies.user._id
     new_comment.save()
-    res.redirect(`/task/form?_id=${task._id}`)
+    res.redirect(`/task/form?_id=${req.body.task_id}`)
 })
 taskController.get('/comment/delete', async(req,res)=>{
     let comment = await Comment.findById(req.query._id).lean().exec()

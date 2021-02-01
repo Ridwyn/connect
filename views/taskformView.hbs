@@ -3,10 +3,10 @@
 {{/if}}
 <section class="task col m-4 p-2 ">
           <div class="task-header d-flex flex-row justify-content-between">
-            <div class="p-2">
+            <div class="p-1">
               <span class="fw-light">Status:</span> 
-              {{#if data.task.status}} <span class="badge p-2"  style="background-color: {{data.task.status.color}};">{{data.task.status.status}}</span>{{/if}}</div>
-            <div class="p-2">
+              {{#if data.task.status}} <span class="badge p-2 text-uppercase"  style="background-color: {{data.task.status.color}};">{{data.task.status.status}}</span>{{/if}}</div>
+            <div class="p-1">
               <span class="fw-light">Assignees of task</span> 
               <a class="button m-1  p-1" href="#" id="assignees"   data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-ellipsis-h"></i>
@@ -20,11 +20,11 @@
                 {{/each}}
               </ul>
             </div>
-            <div class="p-2">
+            <div class="p-1">
               <span class="fw-light">Date created:</span> 
               <span>{{#if data.task.created_at}}{{format_date data.task.created_at "ddd DD/MM/YYYY"}}{{/if}}</span> 
             </div>
-            <div class="p-2">
+            <div class="p-1">
               <span class="fw-light">Due date:</span>  
               <span>{{#if data.task.due_date}}{{format_date data.task.due_date "ddd DD/MM/YYYY LT"}}{{/if}} </span>
             </div>
@@ -57,10 +57,16 @@
                     </div>
 
                     <div class="col mb-3">
-                    <label class="input-group-text fw-light" for="inputGroupSelect01"> {{ data.active_status_template.name}}:</label>
-                    <select class="custom-select" id="inputGroupSelect01" name="status" style="width: inherit;">
+                    <label class="input-group-text fw-light text-capitalize" for="inputGroupSelect01"> {{ data.active_status_template.name}}:</label>
+                    <select class="custom-select" id="inputGroupSelect01" name="status" style="width: inherit; {{#if data.task.status}}color:{{data.task.status.color}};{{/if}}" onchange="changeSelectColor(this)">
+                      {{#if data.task.status}}{{assign 'selected_status' data.task.status.status}}{{/if}}
+                       
                       {{#each data.active_status_template.statuses}}
-                        <option value="{{stringify this}}" style="color: {{this.color}};">{{this.status}}</option>
+                      
+                        <option value="{{stringify this}}" style="color: {{this.color}};" {{#ifeq this.status @root.selected_status}}selected{{/ifeq}}>
+                          {{this.status}}
+                          
+                          </option>
                       {{/each}}
                     </select> 
                     </div>
@@ -95,27 +101,37 @@
            {{!-- Comment Section --}}
             <div class="col-4 right d-flex flex-column justify-content-between ">
               <div>
-                <h3>Task Comments</h3>
-                {{#each data.comments}}
-                <div>
-                    <span class="fw-light">{{this.created_by.name}}: </span>
-                    <span>{{this.comment}}</span>
+                <h4>Comments</h4>
+                <div style="overflow: auto;max-height:80vh"> 
+                  {{#each data.comments}}
+                <div class="d-flex felx-row flex-wrap my-3 p-2 border-bottom"> 
+                    <span class=" fw-light">{{this.created_by.name}}: </span>
+                    <span class="text-break">{{this.comment}}</span>
                     {{#if this.canDelete}}
-                    <span><a class="button" href="comment/delete?_id={{this._id}}"><i class="fas fa-times text-danger"></i></a></span>
+                    <span class="ms-auto"><a class="button" href="comment/delete?_id={{this._id}}"><i class="fas fa-times text-danger"></i></a></span>
                     {{/if}}
                 </div>
                 {{/each}}
+                </div>                
               </div>
               
-              
+              {{!-- Emoji picker --}}
               <form action="/task/comment" method="post">
-                <div class="my-3">
+                <div class="my-3" id="commentParentDiv">
                   <input type="text" name="task_id" value ="{{data.task._id}}" hidden>
-
-                  <input type="text" name="comment" placeholder="comment on this task">
+                  <input data-emojiable="true" id="commentText" type="text" name="comment" placeholder="comment on this task">
                   <input type="submit" value="Comment">
+                  
+                  <script>
+                   $(function () {
+                      $('#commentText').emoji();
+                    })
+                    console.log()
+                  </script>
                 </div>
               </form>
+              
+
             </div>
            </div>
 </section>

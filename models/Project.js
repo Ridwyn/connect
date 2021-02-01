@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const userSchema = require('./User.js').schema
 const status_templateSchema = require('./Status_template').schema
+const workspace = require('./Workspace').schema
 const Schema = mongoose.Schema
 
 const projectSchema = new Schema({

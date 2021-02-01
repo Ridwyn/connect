@@ -89,6 +89,17 @@ button:hover,
 a.button:hover{
   color: var(--text-color) !important;
 }
+a.text
+{
+  color: var(--btn-color)!important ;
+  background-color: var(--btn-bg) !important;
+  border-radius: 5px!important;
+  padding: 0.3rem 0.5rem !important;
+}
+
+a.text:hover{
+  color: var(--text-color) !important;
+}
 
 header {
   background-color: var(--bg-primary) ;
@@ -130,7 +141,7 @@ aside::after{
 }
 .task .task-header{
   border-bottom: 1px solid rgba(0,0,0,.125);
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .task .task-body .left,
@@ -209,4 +220,18 @@ aside::after{
 }
 .jodit-status-bar{
   background-color: #e9ecef;
+}
+
+/* Emoji css psotions */
+#commentParentDiv div{
+  position: absolute;
+    border: 1px solid gray;
+    background-color: rgb(255, 255, 255);
+    height: 200px!important;
+    overflow: auto;
+    left: auto;
+    right: auto;
+}
+#commentParentDiv{
+  position: relative;
 }
