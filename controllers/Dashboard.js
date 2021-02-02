@@ -36,17 +36,21 @@ dashboardController.get('/:space_id?:project_id?',async (req,res)=>{
             space['all_statuses']=[...space.custom_statuses,space.default_statuses]
 
             let projects=await Project.find({'workspace':req.query.space_id}).populate().exec();
-            console.log(projects);
-            projects.map(project => {
+            
+            data['current_space']=space;
+            data['projects']=projects.map(project=>{
                 project.checkCanEdit(req.signedCookies.user._id,function (err, doc) {
                 })
                 project.checkCanDelete(req.signedCookies.user._id,function (err, doc) {
                 })
+                let active_status_template=space.all_statuses.find((status_template)=>{
+                    return status_template._id.toString() === project.active_status_template.toString()
+                });
+                return Object.assign(project.toJSON(),{'template':active_status_template})
+                
             });
-            
-            
-            data['current_space']=space;
-            data['projects']=projects.map(project=>{return project.toJSON()});
+            // projects.map(project=>{return project.toJSON()});
+            console.log(data['projects'][0]['template'])
         }
         // Project id to fetch product task
         if (req.query.project_id) {
@@ -75,7 +79,6 @@ dashboardController.get('/:space_id?:project_id?',async (req,res)=>{
                     for (let j = 0; j < sData.length; j++) {
                         if (tasks[i].status.status.toString() === sData[j].status.toString() ) {
                             sData[j]['tasks'].push(tasks[i])
-                            console.log( )
                         }
                     }
                     

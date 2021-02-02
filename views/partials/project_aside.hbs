@@ -8,12 +8,14 @@
                         {{#each data.projects }}
                         <div class="d-flex ">
                             <a href="/dashboard/?project_id={{this._id}}&space_id={{this.workspace}}" class="button m-1 {{#ifeq this._id @root.current_project_id}} active{{/ifeq}}">{{this.name}}</a>
+                            <span  class="button m-1 p-1">{{this.template.name}}</span>
                             <a class="button m-1  p-1" href="#" id="projectDropdown{{this._id}}"   data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-ellipsis-h"></i>
                             </a>
+                            
                             <ul class="dropdown-menu p-2 text-center " aria-labelledby="projectDropdown{{this._id}}" style="">                                              
                                 <li class="list-group-item d-flex flex-column justify-content-between px-2 py-1{{#ifeq this._id @root.current_project_id}} active{{/ifeq}}" >
-                                {{#if this.canEdit}}
+                                    {{#if this.canEdit}}
                                     <a href="/project/form?_id={{this._id}}" class="button m-1">
                                         <i class="fas fa-pen"></i>
                                     </a>
