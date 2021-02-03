@@ -2,12 +2,12 @@
 
 var express = require('express')
 var dashboardController = express.Router()
-let Workspace = require('../models/Workspace.js')
-let Project = require('../models/Project.js')
-let Task = require('../models/Task.js')
-let User = require('../models/User.js')
-let Status = require('../models/Status.js')
-let DStatus = require('../models/Default_status.js')
+let Workspace = require('../../models/Workspace.js')
+let Project = require('../../models/Project.js')
+let Task = require('../../models/Task.js')
+let User = require('../../models/User.js')
+let Status = require('../../models/Status.js')
+let DStatus = require('../../models/Default_status.js')
 
 
 dashboardController.get('/:space_id?:project_id?',async (req,res)=>{

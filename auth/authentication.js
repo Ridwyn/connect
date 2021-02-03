@@ -1,4 +1,7 @@
 let User=require('../models/User.js')
+var jwt = require('jsonwebtoken');
+
+let secret ='jwtsecret'
 class Authentication {
     static async login (req, res,next) {
       let email = req.body.email;
@@ -8,8 +11,10 @@ class Authentication {
   
       if (found_user) {
         if (email === found_user.email && password === found_user.password) {
+            let token = jwt.sign(found_user.toJSON(),secret); 
             res.cookie('user',found_user.toJSON(), { signed: true })
-            .redirect("/dashboard")
+            res.cookie("token" , token)
+            .redirect("/dashboard")            
         } else {
             res.render("loginView",{layout:'homepage','errorMsg':'Incorrect email or passowrd'})
             }
@@ -28,6 +33,17 @@ class Authentication {
         }else{
             res.status(401).render('404_error_template', {layout: 'error','errorMsg':'Unauthorised User please signin'});
         }
+    }
+    static async checkApiToken (req, res,next) {
+        let token=req.query.token || req.body.token
+        jwt.verify(token, secret, (err, user) => {
+            if (err) {
+                return res.sendStatus(403);
+            }
+            req.user = user;
+            next();
+        });
+          
     }
 
     static async logout(req,res,next){

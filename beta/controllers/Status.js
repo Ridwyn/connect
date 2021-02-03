@@ -1,9 +1,9 @@
 var express = require('express')
 var statusController = express.Router()
-let Workspace = require('../models/Workspace.js')
-let Default_Status = require('../models/Default_status.js')
-let Status = require('../models/Status.js')
-let Status_template = require('../models/Status_template.js')
+let Workspace = require('../../models/Workspace.js')
+let Default_Status = require('../../models/Default_status.js')
+let Status = require('../../models/Status.js')
+let Status_template = require('../../models/Status_template.js')
 const mnemonicId = require('mnemonic-id');
 const mongoose = require('mongoose');
 

@@ -1,10 +1,10 @@
 let express = require('express')
 let taskController = express.Router()
-let Task = require('../models/Task.js');
-let Status = require('../models/Status.js');
-let Workspace = require('../models/Workspace.js');
-let Project = require('../models/Project.js');
-let Comment = require('../models/Comment.js');
+let Task = require('../../models/Task.js');
+let Status = require('../../models/Status.js');
+let Workspace = require('../../models/Workspace.js');
+let Project = require('../../models/Project.js');
+let Comment = require('../../models/Comment.js');
 let multer  = require('multer');
 var upload = multer({ dest: 'uploads/' })
 

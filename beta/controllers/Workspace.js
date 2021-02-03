@@ -1,12 +1,12 @@
 var express = require('express')
 var workspaceController = express.Router()
-let Workspace = require('../models/Workspace.js')
-let User = require('../models/User.js')
-let Default_Status = require('../models/Default_status.js')
-let Task = require('../models/Task.js')
-let Project = require('../models/Project.js')
+let Workspace = require('../../models/Workspace.js')
+let User = require('../../models/User.js')
+let Default_Status = require('../../models/Default_status.js')
+let Task = require('../../models/Task.js')
+let Project = require('../../models/Project.js')
 let mnemonicId = require('mnemonic-id');
-let emailTemplate = require('../helpers/emailTemplate');
+let emailTemplate = require('../../helpers/emailTemplate');
 
 const nodemailer = require("nodemailer");
 

@@ -1,9 +1,9 @@
 let express = require('express')
 let projectController = express.Router()
-let Workspace = require('../models/Workspace.js')
-let Project = require('../models/Project.js')
-let Task = require('../models/Task.js')
-let User = require('../models/User.js')
+let Workspace = require('../../models/Workspace.js')
+let Project = require('../../models/Project.js')
+let Task = require('../../models/Task.js')
+let User = require('../../models/User.js')
 
 
 
@@ -71,6 +71,10 @@ projectController.get('/delete', async(req,res)=>{
     }
 
 })
+
+
+
+
 
 
 

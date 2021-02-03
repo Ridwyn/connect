@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var handlebars  = require('express-handlebars');
 var morgan = require('morgan')
+var cors = require('cors');
 
 const mongoose = require('mongoose')
 
@@ -15,6 +16,10 @@ var secret='123'
 
 // Response ime logging
 app.use(morgan('dev'))
+
+//Cors
+app.use(cors());
+app.options('*', cors());
 
 // set JSON size limit
 var bodyParser = require('body-parser');
@@ -68,9 +73,18 @@ const start = async() => {
       console.error('connection error:', err)
     })
 
-        // Starting routing
-        var routes = require('./routes/routes.js');
-        routes.init(app)
+      // Starting routing
+      var beta = require('./beta/routes')
+      app.use('/',beta)
+
+      var api = require('./api/routes')
+      app.use('/api',api)
+
+      // NOT found error
+      app.use(function(req, res, next){
+        res.status(404).render('404_error_template', {layout: 'error','errorMsg':'Sorry no Page found'});
+        });
+        
 		app.listen(PORT, () => console.log(`App initialised, and listening on port ${PORT}`));
         app.timeout=60000;
 	}catch(error){
@@ -98,7 +112,16 @@ start();
 // Implement due date of task    ##done
 //implement task comments   ##done
 
+//implement push notification update when a comment is made, task created etc
+
 
 // Implement click on workspace and disyplay all task 
 //Implement notes personal for users
 // implement git database to asve attachment from task
+// Implement createing a new repo
+// implement creating files and folders to repo
+// implement updating files and folders of repo
+// implementing deletting files and folders
+// implementing creating a master branch and feature branches etc feature A ref
+// implement merging branches,
+
