@@ -5,6 +5,7 @@ const userSchema = new Schema({
   name: String,
   email: String,
   password: String,
+  token:String,
   date_joined:{type:Date, default:Date.now}
 })
 

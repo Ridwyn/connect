@@ -85,8 +85,13 @@ const start = async() => {
         res.status(404).render('404_error_template', {layout: 'error','errorMsg':'Sorry no Page found'});
         });
         
-		app.listen(PORT, () => console.log(`App initialised, and listening on port ${PORT}`));
-        app.timeout=60000;
+      // app.listen(PORT, () => console.log(`App initialised, and listening on port ${PORT}`));
+      
+      // Use node https and attach express to use server timeout
+      let server = require('http').createServer(app);
+      server.listen(PORT, () => console.log(`App initialised, and listening on port ${PORT}`));
+      server.timeout=6000
+      console.log(server.timeout);
 	}catch(error){
 		console.log(error);
 	}
