@@ -1,9 +1,9 @@
 let express = require('express')
 let projectController = express.Router()
-let Workspace = require('../../models/Workspace.js')
-let Project = require('../../models/Project.js')
-let Task = require('../../models/Task.js')
-let User = require('../../models/User.js')
+let Workspace = require(__appRoot+'/models/Workspace.js')
+let Project = require(__appRoot+'/models/Project.js')
+let Task = require(__appRoot+'/models/Task.js')
+let User = require(__appRoot+'/models/User.js')
 
 
 

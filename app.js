@@ -4,12 +4,15 @@ var cookieParser = require('cookie-parser');
 var handlebars  = require('express-handlebars');
 var morgan = require('morgan')
 var cors = require('cors');
+var path = require('path');
 require('dotenv').config()
 
 const mongoose = require('mongoose')
 
 
 var app = express();
+
+global.__appRoot=path.resolve(__dirname);
 
 
 // CookieParser Secret

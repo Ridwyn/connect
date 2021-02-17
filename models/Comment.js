@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const userSchema = require('./User.js').schema
-const taskSchema = require('./Task.js').schema
+const userSchema = require(__appRoot+'/models/User.js').schema
+const taskSchema = require(__appRoot+'/models/Task.js').schema
 const Schema = mongoose.Schema
 
 const commentSchema = new Schema({

@@ -3,7 +3,7 @@ var app = express();
 
 
 // Authentication
-var auth= require('../auth/authentication.js')
+var auth= require(__appRoot+'/auth/authentication.js')
 app.use('/loginpage',(req,res,next)=>{res.render('loginView',{layout:'homepage'})})
 app.use('/login',auth.login)
 app.use('/signuppage',(req,res,next)=>{res.render('signupView',{layout:'homepage'})})

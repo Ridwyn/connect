@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const statusSchema = require('../models/Status').schema
+const statusSchema = require(__appRoot+'/models/Status').schema
 const Schema = mongoose.Schema
 
 const statusTemplateSchema = new Schema({

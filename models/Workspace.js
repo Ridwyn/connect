@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const userSchema = require('./User.js').schema
-const statusSchema = require('./Status.js').schema
 const status_templateSchema = require('./Status_template.js').schema
 const Schema = mongoose.Schema
 
