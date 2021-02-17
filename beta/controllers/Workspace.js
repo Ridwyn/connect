@@ -22,7 +22,7 @@ workspaceController.get('/form',async(req,res)=>{
         data['default_statuses']=obj.default_statuses;
     }
 
-    res.render('workspaceFormView', {'data':data});
+    res.render('_workspaceFormView', {'data':data});
 })
 
 workspaceController.post('/form',async (req,res)=>{
