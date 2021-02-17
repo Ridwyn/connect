@@ -32,7 +32,7 @@ projectController.get('/form',async(req,res)=>{
     }
     
  
-    res.render('projectFormView', {'data':data});
+    res.render('_projectFormView', {'data':data});
 })
 
 projectController.post('/form',async (req,res)=>{

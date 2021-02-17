@@ -100,7 +100,7 @@ workspaceController.post('/invite',async(req,res)=>{
 workspaceController.get('/join',async (req,res)=>{
     let data={}
     data['user']=req.signedCookies.user
-    res.render('joinFormView',{'data':data})
+    res.render('_joinFormView',{'data':data})
 })
 
 workspaceController.post('/join', async(req,res)=>{
@@ -109,7 +109,7 @@ workspaceController.post('/join', async(req,res)=>{
     let space= await Workspace.findOne({'join_code':req.body.join_code.trim()}).exec()
     if (!space) {
         data['errorMsg']='Incorrect Join Code';
-        res.render('joinFormView',{'data':data})
+        res.render('_joinFormView',{'data':data})
     }
 
     let userInSpace= space.members.find(member=>{
@@ -121,7 +121,7 @@ workspaceController.post('/join', async(req,res)=>{
         res.redirect('/dashboard')
     }else{
         data['errorMsg']='Already a Memebr of this Workspace';
-        res.render('joinFormView',{'data':data})
+        res.render('_joinFormView',{'data':data})
     }
 })
 

@@ -26,7 +26,7 @@ statusController.get('/form',async(req,res)=>{
     
  
  
-    res.render('statusFormView', {'data':data});
+    res.render('_statusFormView', {'data':data});
 })
 
 statusController.post('/form',async (req,res)=>{
