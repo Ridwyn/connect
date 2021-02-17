@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const statusSchema = require('./Status').schema
+const statusSchema = require('./Default_status').schema
 const Schema = mongoose.Schema
 
 const statusTemplateSchema = new Schema({
