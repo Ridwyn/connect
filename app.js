@@ -95,8 +95,7 @@ const start = async() => {
       let server = require('http').createServer(app);    
 
       server.listen(PORT, () => console.log(`App initialised, and listening on port ${PORT}`));
-      server.timeout=6000
-      console.log(server.timeout);
+      // server.timeout=6000
 	}catch(error){
 		console.log(error);
 	}
