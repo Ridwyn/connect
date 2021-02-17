@@ -8,4 +8,4 @@ const statusSchema = new Schema({
   type:String,
 })
 
-module.exports = mongoose.model('status', statusSchema)
+module.exports = mongoose.model('Status', statusSchema)
