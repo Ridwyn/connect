@@ -7,7 +7,7 @@ let Project = require(__appRoot+'/models/Project.js')
 let Task = require(__appRoot+'/models/Task.js')
 let User = require(__appRoot+'/models/User.js')
 // let Status = require(__appRoot+'/models/Status.js')
-// let DStatus = require(__appRoot+'/models/Default_status.js')
+let DStatus = require(__appRoot+'/models/Default_status.js')
 
 
 dashboardController.get('/:space_id?:project_id?',async (req,res)=>{
