@@ -1,7 +1,6 @@
 var express = require('express')
 var statusController = express.Router()
 let Workspace = require(__appRoot+'/models/Workspace.js')
-let Default_Status = require(__appRoot+'/models/Workspace.js')
 let Default_Status = require(__appRoot+'/models/Default_status.js')
 let Status = require(__appRoot+'/models/Status_template.js')
 // let Status = require(__appRoot+'/models/Stat.js')
