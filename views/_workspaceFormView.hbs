@@ -43,7 +43,7 @@
                    {{!-Custom status -  --}}
                <div class="my-2">
                   {{#each data.space.custom_statuses}}
-                      <button class=" " type="button" data-toggle="collapse" data-target="#{{this.name}}" aria-expanded="false" aria-controls="collapseExample">
+                      <button class=" " type="button" data-bs-toggle="collapse" data-bs-target="#{{this.name}}" aria-expanded="false" aria-controls="collapseExample">
                         {{this.name}}
                       </button>
                       {{#each this.statuses}}
