@@ -7,7 +7,10 @@ let User = require(__appRoot+'/models/User.js')
 
 
 
+
+
 projectController.get('/form',async(req,res)=>{
+    console.log(__appRoot+'/models/Workspace.js')
     let data={};
     
     // Check db for found project to update
@@ -20,8 +23,7 @@ projectController.get('/form',async(req,res)=>{
             return status_template._id.toString() === project.active_status_template.toString()
         })
         data['project']=project; 
-        console.log(project['current_status_template'])
-        console.log(project.active_status_template)
+        
     }else{
         //New project display form
         let space=await Workspace.findById(req.query.space_id).lean().exec()
