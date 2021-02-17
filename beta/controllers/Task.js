@@ -1,7 +1,8 @@
 let express = require('express')
 let taskController = express.Router()
 let Task = require(__appRoot+'/models/Task.js');
-let Status = require(__appRoot+'/models/Status.js');
+let Status = require(__appRoot+'/models/Task.js');
+// let Status = require(__appRoot+'/models/Status.js');
 let Workspace = require(__appRoot+'/models/Workspace.js');
 let Project = require(__appRoot+'/models/Project.js');
 let Comment = require(__appRoot+'/models/Comment.js');
