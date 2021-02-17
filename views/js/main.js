@@ -76,6 +76,21 @@ function changeSelectColor(el) {
   el.style.color = el.options[el.selectedIndex].style.color;
 }
 
+let socket = new WebSocket("ws://localhost:3000/api/ws");
+console.log(socket)
+
+function websocketInit(params) {
+  // let socket = new WebSocket("http://localhost:3000/api/ws");
+
+ 
+  // socket.onopen = function(e) {
+  //   alert("[open] Connection established");
+  //   alert("Sending to server");
+  //   socket.send("My name is John");
+  // };
+  
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
 //    navtemplate();
@@ -84,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
    addStatus;
    removeStatus;
    addActiveLi
+   websocketInit;
 
 //    changeViewStructure();
 });

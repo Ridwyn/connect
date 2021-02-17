@@ -11,9 +11,22 @@ var upload = multer({ dest: 'uploads/' })
 taskController.get('/form',async (req,res)=>{
     let data={};
 
+    let path={ 
+        path: 'workspace',
+        populate: {
+          path: 'members',
+          model: 'User'
+        } 
+     }
     // Check db for found task to update
     if(req.query._id){
-        let task = await Task.findById(req.query._id).populate('workspace').populate('project').populate('assignees').lean().exec()
+        let task = await Task.findById(req.query._id).populate({ 
+            path: 'workspace',
+            populate: {
+              path: 'members',
+              model: 'User'
+            } 
+         }).populate('project').populate('assignees').lean().exec()
         data['task']=task; 
         let space =task.workspace
         let project =task.project
@@ -32,7 +45,7 @@ taskController.get('/form',async (req,res)=>{
         data['comments']=comments.map(comment=>{return comment.toJSON()})
         data['space']=space
     }else{
-        let space =await Workspace.findById(req.query.space_id).lean().exec()
+        let space =await Workspace.findById(req.query.space_id).populate('members').lean().exec()
         let project =await Project.findById(req.query.project_id).lean().exec()
         data['space_id']=req.query.space_id
         data['project_id']=req.query.project_id

@@ -9,7 +9,7 @@ const workspaceSchema = new Schema({
   created_at:{ type: Date, default: Date.now },
   created_by:{ type : userSchema , required : true },
   join_code: { type : String ,  required : true },
-  members:[userSchema],
+  members:[{type: Schema.Types.ObjectId, ref: 'User'}],
   usersAllowedToEdit:[{type: Schema.Types.ObjectId, ref: 'User'}],
   usersAllowedToDelete:[{type: Schema.Types.ObjectId, ref: 'User'}],
   canEdit:{type:Boolean, default:false},

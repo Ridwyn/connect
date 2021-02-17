@@ -4,17 +4,18 @@ var cookieParser = require('cookie-parser');
 var handlebars  = require('express-handlebars');
 var morgan = require('morgan')
 var cors = require('cors');
+require('dotenv').config()
 
 const mongoose = require('mongoose')
 
 
-
-
-
 var app = express();
-var secret='123'
 
-// Response ime logging
+
+// CookieParser Secret
+var secret=process.env.COOKIEPARSER_SECRET;
+
+// Response time logging
 app.use(morgan('dev'))
 
 //Cors
@@ -57,7 +58,7 @@ const PORT = process.env.PORT || '3000';
 const start = async() => {
 	try{
     // CONNECT TO MONGODB
-    const url = "mongodb+srv://ridwyn97:ridwyn97@realmcluster.ukvwr.mongodb.net/connect-app?retryWrites=true&w=majority";
+    const url = process.env.MONGODB_URL;
     await mongoose.connect(url, { 
       useNewUrlParser: true,
       useUnifiedTopology: true, 
@@ -88,7 +89,8 @@ const start = async() => {
       // app.listen(PORT, () => console.log(`App initialised, and listening on port ${PORT}`));
       
       // Use node https and attach express to use server timeout
-      let server = require('http').createServer(app);
+      let server = require('http').createServer(app);    
+
       server.listen(PORT, () => console.log(`App initialised, and listening on port ${PORT}`));
       server.timeout=6000
       console.log(server.timeout);

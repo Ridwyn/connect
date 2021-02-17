@@ -2,7 +2,7 @@ var express = require('express')
 var workspaceController = express.Router()
 let Workspace = require('../../models/Workspace.js')
 let User = require('../../models/User.js')
-let Default_Status = require('../../models/Default_status.js')
+let default_statuses = require('../../models/Default_status.js')
 let Task = require('../../models/Task.js')
 let Project = require('../../models/Project.js')
 let mnemonicId = require('mnemonic-id');
@@ -16,9 +16,12 @@ workspaceController.get('/form',async(req,res)=>{
     if(req.query._id){
         let space = await Workspace.findById(req.query._id).lean().exec()
         data['space']=space; 
+    }else{
+        let space = new Workspace();
+        let obj=space.toJSON();
+        data['default_statuses']=obj.default_statuses;
     }
-    data['default_statuses']= await Default_Status.find().lean().exec();
- 
+
     res.render('workspaceFormView', {'data':data});
 })
 
@@ -35,7 +38,7 @@ workspaceController.post('/form',async (req,res)=>{
             let new_workspace=new Workspace(req.body)
             new_workspace.created_by= req.signedCookies.user
             new_workspace.join_code=mnemonicId.createUniqueNameId();
-            new_workspace.members=[req.signedCookies.user];
+            new_workspace.members=[req.signedCookies.user._id];
             new_workspace.usersAllowedToEdit=[req.signedCookies.user._id];
             new_workspace.usersAllowedToDelete=[req.signedCookies.user._id];
             results=await new_workspace.save()
@@ -113,7 +116,7 @@ workspaceController.post('/join', async(req,res)=>{
         return member._id.toString() === user._id.toString()
     })
     if(!userInSpace){
-        space.members.push(user)
+        space.members.push(user._id)
         await space.save()
         res.redirect('/dashboard')
     }else{
@@ -126,7 +129,7 @@ workspaceController.post('/leave',async(req,res)=>{
     console.log(req.body);
     let user= req.signedCookies.user
     let space= await Workspace.findById(req.body.space_id).exec()
-    space.members.pull({'_id':user._id})
+    space.members.pull(user._id)
     await space.save()
     res.redirect('/dashboard')
 })

@@ -14,7 +14,7 @@ dashboardController.get('/:space_id?:project_id?',async (req,res)=>{
     try {
         let data={}   
         // Find all workspace for currently lgged member
-        let spaces=await Workspace.find({ 'members' :  req.signedCookies.user }).exec();
+        let spaces=await Workspace.find({ 'members' :  req.signedCookies.user._id }).exec();
         spaces.forEach(space => {
             space.checkCanEdit(req.signedCookies.user._id,function (err, doc) {
             })
@@ -25,7 +25,7 @@ dashboardController.get('/:space_id?:project_id?',async (req,res)=>{
         data['spaces']=spaces.map(space=>{return space.toJSON()})
         data['assigned_tasks']=await Task.find({ 'assignees' :  req.signedCookies.user._id }).lean().exec();
 
-
+        console.log(spaces)
         // Space id to fetch space projects
         if (req.query.space_id) {
             let space=await Workspace.findById(req.query.space_id).exec();
@@ -49,8 +49,6 @@ dashboardController.get('/:space_id?:project_id?',async (req,res)=>{
                 return Object.assign(project.toJSON(),{'template':active_status_template})
                 
             });
-            // projects.map(project=>{return project.toJSON()});
-            console.log(data['projects'][0]['template'])
         }
         // Project id to fetch product task
         if (req.query.project_id) {
@@ -90,6 +88,7 @@ dashboardController.get('/:space_id?:project_id?',async (req,res)=>{
         data['project_id']=req.query.project_id
         data['space_id']=req.query.space_id
 
+        
         res.render('dashboardView', {'data':data});
     } catch (error) {
         console.log(error);

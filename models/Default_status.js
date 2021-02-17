@@ -8,4 +8,4 @@ const defaultstatusSchema = new Schema({
   type:String,
 })
 
-module.exports = mongoose.model('default_status', defaultstatusSchema)
+module.exports = mongoose.model('default_statuses', defaultstatusSchema)
