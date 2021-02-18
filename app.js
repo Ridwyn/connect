@@ -1,22 +1,21 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var handlebars  = require('express-handlebars');
-var morgan = require('morgan')
-var cors = require('cors');
-var path = require('path');
-require('dotenv').config()
+const express = require('express');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const handlebars  = require('express-handlebars');
+const WebSocket = require('ws');
+const morgan = require('morgan')
+const cors = require('cors');
+const path = require('path');
+require('dotenv').config();
+
 
 const mongoose = require('mongoose')
 
 
-var app = express();
+const app = express();
 
 global.__appRoot=path.resolve(__dirname);
 
-
-// CookieParser Secret
-var secret=process.env.COOKIEPARSER_SECRET;
 
 // Response time logging
 app.use(morgan('dev'))
@@ -26,7 +25,6 @@ app.use(cors());
 app.options('*', cors());
 
 // set JSON size limit
-var bodyParser = require('body-parser');
 app.use(bodyParser.json({limit: '1mb'}));
 app.use(bodyParser.urlencoded({limit: '1mb', extended: true}));
 app.use(express.json());
@@ -35,12 +33,11 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 app.use(bodyParser.json());
-app.use(cookieParser(secret))
+app.use(cookieParser(process.env.COOKIEPARSER_SECRET))
+
 
 // NEEDED TO IMPORT CSS
 app.use(express.static(__dirname+"/views"));
-
-const port = 3000;
 
 //Sets our app to use the handlebars engine
 app.set('view engine', 'hbs');
@@ -53,9 +50,6 @@ app.engine('hbs', handlebars({
     // handlebars: allowInsecurePrototypeAccess(Handlebars),
 }));
 
-
-
-// app.listen(port, () => console.log(`App listening to port ${port}`));
 
 const PORT = process.env.PORT || '3000';
 const start = async() => {
@@ -70,7 +64,7 @@ const start = async() => {
       })
     const db = mongoose.connection
     db.once('open', _ => {
-      console.log('Database connected:', url)
+      console.log('Database connected:')
     })
     
     db.on('error', err => {
@@ -78,24 +72,69 @@ const start = async() => {
     })
 
       // Starting routing
-      var beta = require('./beta/routes')
+      const beta = require('./beta/routes')
       app.use('/',beta)
 
-      var api = require('./api/routes')
+      const api = require('./api/routes')
       app.use('/api',api)
 
       // NOT found error
       app.use(function(req, res, next){
         res.status(404).render('404_error_template', {layout: 'error','errorMsg':'Sorry no Page found'});
         });
-        
-      // app.listen(PORT, () => console.log(`App initialised, and listening on port ${PORT}`));
       
-      // Use node https and attach express to use server timeout
-      let server = require('http').createServer(app);    
+      const server = require('http').createServer(app);
 
+        const WEBSOCKETCLIENTS={}
+      const wss1 = new WebSocket.Server({ noServer:true});
+      wss1.on('connection', function connection(ws, request) {
+       console.log("connection estblish on wss1");
+       const baseURL = 'https://' + request.headers.host + '/';
+       const reqUrl = new URL(request.url,baseURL);
+       let user_id=reqUrl.searchParams.get('user_id');
+        ws.id=user_id;
+       WEBSOCKETCLIENTS[user_id]=ws
+
+       ws.on('message',(_task)=>{
+        console.log("recieved "+ _task)
+        let task =JSON.parse(_task)
+        let ass= new Set(task.assignees);
+
+        wss1.clients.forEach(function each(client) {
+          let fnd=false;
+          for (let i = 0; i < task.assignees.length; i++) {
+            if (task.assignees.indexOf(parseInt(client.id))!==-1) {
+              fnd=true
+            }
+          }
+          if ( client.readyState === WebSocket.OPEN && fnd) {   
+              console.log(fnd)
+              if (fnd) {
+                client.send(`from ${client.id}:`+JSON.stringify(task));
+              }
+            } 
+        });
+           
+       });
+       ws.on('close', function () {
+        delete WEBSOCKETCLIENTS[user_id]
+        console.log('deleted: ' + user_id)
+      })
+       
+      });
+
+      server.on('upgrade', function upgrade(request, socket, head) {
+        const pathname = request.url;
+        if (pathname.includes('/ws/task')) {
+          wss1.handleUpgrade(request, socket, head, function done(ws) {
+            wss1.emit('connection', ws, request);
+          });
+        }else{
+          socket.destroy()
+        }
+      });
+      
       server.listen(PORT, () => console.log(`App initialised, and listening on port ${PORT}`));
-      // server.timeout=6000
 	}catch(error){
 		console.log(error);
 	}
@@ -121,7 +160,9 @@ start();
 // Implement due date of task    ##done
 //implement task comments   ##done
 
-//implement push notification update when a comment is made, task created etc
+//implement push notification update when a comment is made, task created etc using websockets
+//long polling heavy on server and lead to rapid increase of server
+//so we offload it with websockets and emit 
 
 
 // Implement click on workspace and disyplay all task 

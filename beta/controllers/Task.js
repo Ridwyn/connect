@@ -6,7 +6,7 @@ let Workspace = require(__appRoot+'/models/Workspace.js');
 let Project = require(__appRoot+'/models/Project.js');
 let Comment = require(__appRoot+'/models/Comment.js');
 let multer  = require('multer');
-var upload = multer({ dest: 'uploads/' })
+var upload = multer({ dest: 'uploads/' });
 
 taskController.get('/form',async (req,res)=>{
     let data={};

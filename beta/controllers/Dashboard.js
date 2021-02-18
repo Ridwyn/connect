@@ -23,7 +23,7 @@ dashboardController.get('/:space_id?:project_id?',async (req,res)=>{
         data['spaces']=spaces.map(space=>{return space.toJSON()})
         data['assigned_tasks']=await Task.find({ 'assignees' :  req.signedCookies.user._id }).lean().exec();
 
-        console.log(spaces)
+        
         // Space id to fetch space projects
         if (req.query.space_id) {
             let space=await Workspace.findById(req.query.space_id).exec();
