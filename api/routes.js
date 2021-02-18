@@ -7,9 +7,6 @@ var auth = require(__appRoot+'/auth/authentication.js')
 var project = require('./internal/Project.js')
 app.use('/project',auth.checkApiToken,project)
 
-//Projects
-// var project = require('./sockets/Project.js')
-// app.use('/',project)
 
 
 module.exports= app

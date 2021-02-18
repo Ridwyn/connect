@@ -78,6 +78,8 @@ const start = async() => {
       const api = require('./api/routes')
       app.use('/api',api)
 
+      
+
       // NOT found error
       app.use(function(req, res, next){
         res.status(404).render('404_error_template', {layout: 'error','errorMsg':'Sorry no Page found'});
@@ -85,49 +87,12 @@ const start = async() => {
       
       const server = require('http').createServer(app);
 
-        const WEBSOCKETCLIENTS={}
-      const wss1 = new WebSocket.Server({ noServer:true});
-      wss1.on('connection', function connection(ws, request) {
-       console.log("connection estblish on wss1");
-       const baseURL = 'https://' + request.headers.host + '/';
-       const reqUrl = new URL(request.url,baseURL);
-       let user_id=reqUrl.searchParams.get('user_id');
-        ws.id=user_id;
-       WEBSOCKETCLIENTS[user_id]=ws
-
-       ws.on('message',(_task)=>{
-        console.log("recieved "+ _task)
-        let task =JSON.parse(_task)
-        let ass= new Set(task.assignees);
-
-        wss1.clients.forEach(function each(client) {
-          let fnd=false;
-          for (let i = 0; i < task.assignees.length; i++) {
-            if (task.assignees.indexOf(parseInt(client.id))!==-1) {
-              fnd=true
-            }
-          }
-          if ( client.readyState === WebSocket.OPEN && fnd) {   
-              console.log(fnd)
-              if (fnd) {
-                client.send(`from ${client.id}:`+JSON.stringify(task));
-              }
-            } 
-        });
-           
-       });
-       ws.on('close', function () {
-        delete WEBSOCKETCLIENTS[user_id]
-        console.log('deleted: ' + user_id)
-      })
-       
-      });
-
+      const task_websockets = require('./sockets/task.js')
       server.on('upgrade', function upgrade(request, socket, head) {
         const pathname = request.url;
         if (pathname.includes('/ws/task')) {
-          wss1.handleUpgrade(request, socket, head, function done(ws) {
-            wss1.emit('connection', ws, request);
+          task_websockets.handleUpgrade(request, socket, head, function done(ws) {
+            task_websockets.emit('connection', ws, request);
           });
         }else{
           socket.destroy()
