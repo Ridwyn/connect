@@ -1,5 +1,6 @@
 const WebSocket = require('ws');
 const User = require(__appRoot+'/models/User.js');
+const Task = require(__appRoot+'/models/Task.js');
 const _users_connected = require(__appRoot+'/models/_Users_connected.js');
 
 const WEBSOCKETCLIENTS={}
@@ -20,7 +21,7 @@ wss1.on('connection', async function connection(ws, request) {
 
     ws.on('message',(_task)=>{
      let task =JSON.parse(_task)
-     wss1.clients.forEach(function each(client) {
+     wss1.clients.forEach(async function each(client) {
        let fnd=false;
        for (let i = 0; i < task.assignees.length; i++) {
          if (task.assignees.indexOf(client.id.toString())!==-1) {
@@ -29,7 +30,8 @@ wss1.on('connection', async function connection(ws, request) {
        }
        if ( client.readyState === WebSocket.OPEN && fnd) { 
            if (fnd) {
-             client.send(`from ${client.id}:`+JSON.stringify(task));
+           let tasks= await Task.find({ 'assignees' :  client.id}).lean().exec();
+             client.send(`assigned tasks:`+JSON.stringify(tasks));
            }
          } 
      });
