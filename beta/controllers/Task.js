@@ -1,11 +1,12 @@
-let express = require('express')
-let taskController = express.Router()
-let Task = require(__appRoot+'/models/Task.js');
-let Status = require(__appRoot+'/models/_Status.js');
-let Workspace = require(__appRoot+'/models/Workspace.js');
-let Project = require(__appRoot+'/models/Project.js');
-let Comment = require(__appRoot+'/models/Comment.js');
-let multer  = require('multer');
+const express = require('express')
+const taskController = express.Router()
+const User = require(__appRoot+'/models/User.js');
+const Task = require(__appRoot+'/models/Task.js');
+const Status = require(__appRoot+'/models/_Status.js');
+const Workspace = require(__appRoot+'/models/Workspace.js');
+const Project = require(__appRoot+'/models/Project.js');
+const Comment = require(__appRoot+'/models/Comment.js');
+const multer  = require('multer');
 var upload = multer({ dest: 'uploads/' });
 
 taskController.get('/form',async (req,res)=>{
@@ -59,8 +60,11 @@ taskController.get('/form',async (req,res)=>{
         data['project']=project
     }
  
+    data['assigned_tasks']=await Task.find({ 'assignees' :  req.signedCookies.user._id }).lean().exec();
     res.render('_taskFormView', {'data':data});
 })
+
+
 
 taskController.post('/form',upload.any(),async (req,res)=>{
     // Update project
@@ -71,20 +75,26 @@ taskController.post('/form',upload.any(),async (req,res)=>{
             req.body.assignees=Array.from(new Set(req.body.assignees.map(String)))
         }
         // parse statuse value before insert
-        req.body.status=new Status(JSON.parse(req.body.status))
+        req.body.status=new Status(JSON.parse(req.body.status));
+        req.body.updated_at=new Date();
+
+        let {_id}=  await User.findOne({'token':req.body.updated_by}).lean().exec()
+        req.body.updated_by=_id
+
         Task.findByIdAndUpdate(req.body._id, req.body, {new:true,lean:true}, function (error,doc) {
             res.redirect(`/task/form?_id=${doc._id}`);
          })        
      }else{
          // Create new project
          try {
-            req.body.status= new Status(JSON.parse(req.body.status))   
-             let new_task=new Task(req.body)
-             new_task.created_by= req.signedCookies.user
-             new_task.workspace= req.body.space_id
-             new_task.project= req.body.project_id
-            await new_task.save( )
-           res.redirect(`/dashboard?space_id=${req.body.space_id}&project_id=${req.body.project_id}`);
+            req.body.status= new Status(JSON.parse(req.body.status)) ; 
+            let {_id}=  await User.findOne({'token':req.body.created_by}).lean().exec();
+            req.body.created_by=_id;
+
+            let new_task=new Task(req.body)             
+            await new_task.save()
+
+            res.redirect(`/dashboard?space_id=${req.body.space_id}&project_id=${req.body.project_id}`);
  
          } catch (error) {
              console.log(error)

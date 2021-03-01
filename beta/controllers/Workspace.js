@@ -22,6 +22,7 @@ workspaceController.get('/form',async(req,res)=>{
         data['default_statuses']=obj.default_statuses;
     }
 
+    data['assigned_tasks']=await Task.find({ 'assignees' :  req.signedCookies.user._id }).lean().exec();
     res.render('_workspaceFormView', {'data':data});
 })
 
@@ -100,11 +101,14 @@ workspaceController.post('/invite',async(req,res)=>{
 workspaceController.get('/join',async (req,res)=>{
     let data={}
     data['user']=req.signedCookies.user
+    data['assigned_tasks']=await Task.find({ 'assignees' :  req.signedCookies.user._id }).lean().exec();
+
     res.render('_joinFormView',{'data':data})
 })
 
 workspaceController.post('/join', async(req,res)=>{
     let data={}
+    data['assigned_tasks']=await Task.find({ 'assignees' :  req.signedCookies.user._id }).lean().exec();
     let user= await User.findById(req.body.user_id).exec()
     let space= await Workspace.findOne({'join_code':req.body.join_code.trim()}).exec()
     if (!space) {

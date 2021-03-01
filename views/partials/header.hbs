@@ -14,12 +14,14 @@
        <li class="nav-item m-1">
                         <a href="#" class="p-1">Favourites</a>
                     </li>
-                    {{#if data.assigned_tasks}}
                         <li class="nav-item m-1  dropdown">
                             <a class="nav-link dropdown-toggle p-1" href="#" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
                                 Assigned task
                             </a>
-                            <ul class="dropdown-menu p-2" aria-labelledby="navbarDropdown">
+                            <ul class="dropdown-menu p-2" aria-labelledby="navbarDropdown" id="#assigned_tasks_list">
+                                {{#unless data.assigned_tasks}}
+                                <p class="warning">WARNING: No assigned task !</p>
+                                {{/unless}}
                                 {{#each data.assigned_tasks}}
                                  <li class="my-2 d-flex flex-row justify-content-between" style="min-width: 100px;">
                                     <a class="button d-inline m-1 p-1 " href="/task/form?_id={{this._id}}">{{this.name}}</a>
@@ -27,7 +29,7 @@
                                 </li>
                                 {{/each}}
                             </ul>
-                        </li>                    {{/if}}
+                        </li>
                     {{#if data.current_space }}
                         <li class="nav-item m-1  dropdown">
                             <a class="nav-link dropdown-toggle p-1" href="#" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">

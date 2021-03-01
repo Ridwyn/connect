@@ -194,9 +194,11 @@ aside::after{
   width:100%;
   margin:0;
   padding:0;
+  position: absolute;
+  top:0;
 }
 
-.alert {
+.notify {
   -moz-animation: cssAnimation 0s ease-in 3s forwards;
   /* Firefox */
   -webkit-animation: cssAnimation 0s ease-in 3s forwards;
@@ -212,6 +214,7 @@ aside::after{
       width:0;
       height:0;
       overflow:hidden;
+      visibility: hidden;
   }
 }
 

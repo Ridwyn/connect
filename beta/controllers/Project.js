@@ -31,7 +31,7 @@ projectController.get('/form',async(req,res)=>{
         data['space']=space
     }
     
- 
+    data['assigned_tasks']=await Task.find({ 'assignees' :  req.signedCookies.user._id }).lean().exec();
     res.render('_projectFormView', {'data':data});
 })
 

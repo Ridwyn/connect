@@ -1,7 +1,7 @@
 let User=require('../models/User.js')
 var jwt = require('jsonwebtoken');
 
-let secret ='jwtsecret'
+let secret =process.env.JWT_SECRET
 class Authentication {
     static async login (req, res,next) {
       let email = req.body.email;
@@ -9,20 +9,20 @@ class Authentication {
       // For the given username fetch user from DB
      let found_user= await User.findOne({'email':email}).exec()
   
-      if (found_user) {
-        if (email === found_user.email && password === found_user.password) {
-            let token = jwt.sign(found_user.toJSON(),secret); 
-            found_user.token=token;
-            await found_user.save()
-            res.cookie('user',found_user.toJSON(), { signed: true })
-            res.cookie("token" , token)
-            .redirect("/dashboard")            
-        } else {
-            res.render("loginView",{layout:'homepage','errorMsg':'Incorrect email or passowrd'})
+        if (found_user) {
+            if (email === found_user.email && password === found_user.password) {
+                let token = jwt.sign(JSON.parse(JSON.stringify(found_user)),secret); 
+                found_user.token=token;
+                await found_user.save()
+                res.cookie('user',JSON.parse(JSON.stringify(found_user)), { signed: true })
+                res.cookie("token" ,encodeURIComponent(token))
+                res.redirect("/dashboard")            
+            } else {
+                res.render("loginView",{layout:'homepage','errorMsg':'Incorrect email or passowrd'})
             }
-        }else{
-                res.render("loginView",{layout:'hompage', 'errorMsg':'Create an Account'})
-            } 
+            }else{
+                    res.render("loginView",{layout:'homepage', 'errorMsg':'Create an Account'})
+        } 
     }
     static async signup(req,res,next){
         const new_user=new User(req.body);
@@ -30,14 +30,17 @@ class Authentication {
         res.cookie('user', new_user.toJSON(), { signed: true }).redirect('/dashboard')
     }
     static async check (req, res,next) {
-        if(req.signedCookies.user){
-            next()
-        }else{
+        let found_user= await User.findOne({'token':req.cookies.token}).exec()
+        if(found_user){
+            
+           next();
+        }
+        else{
             res.status(401).render('404_error_template', {layout: 'error','errorMsg':'Unauthorised User please signin'});
         }
     }
     static async checkApiToken (req, res,next) {
-        let token=req.query.token || req.body.token
+        let token=req.query.token || req.signedCookies.token
         let found_user= await User.findOne({'token':token}).exec()
 
         jwt.verify(token, secret, (err, data) => {
@@ -54,10 +57,11 @@ class Authentication {
     }
 
     static async logout(req,res,next){
-        let token=req.signedCookies.user.token
-        let found_user= await User.findOne({'token':token}).exec()
-        found_user.token='';
-        await found_user.save()
+        let found_user= await User.findOne({'token':req.signedCookies.user.token}).exec()
+        if(found_user){
+            found_user.token='';
+            await found_user.save()
+        }
         res.cookie('user', '', {expires: new Date(0)})
         res.cookie('token','',{expires: new Date(0)})
         .redirect('/home')

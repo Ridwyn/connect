@@ -127,7 +127,10 @@ start();
 
 //implement push notification update when a comment is made, task created etc using websockets
 //long polling heavy on server and lead to rapid increase of server
-//so we offload it with websockets and emit 
+//so we offload it with websockets and emit ##done
+
+//Bug on updating the notification itmes for tasks
+// upload to heroku and test on live server
 
 
 // Implement click on workspace and disyplay all task 
