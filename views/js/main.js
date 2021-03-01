@@ -169,15 +169,14 @@ async function removeAssignee(assignee_id,task_id){
   if (window.location.hostname==='localhost') {
     url=`http:///localhost:3000/task/remove_assignee?assignee_id=${assignee_id}&task_id=${task_id}`
   }
-  await axios({ method: 'get', url});
+  console.log(url)
+  await axios({ method:'get', url});
 
-  await websocketCheck();
-  let socket =await websocketCheck();
-  socket.send(JSON.stringify({action:'ASSIGNEE_REMOVE',data:data}));
-  location.reload();
+  // let socket =await websocketCheck();
+  // socket.send(JSON.stringify({action:'ASSIGNEE_REMOVE',data:data}));
+  // location.reload();
 }
 
-console.log(window.location.protocol)
 
 
 function websocketInit({max,start,interval,timeout}) { 

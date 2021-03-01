@@ -119,8 +119,10 @@ taskController.post('/form',upload.any(),async (req,res)=>{
 taskController.get('/remove_assignee', async(req,res)=>{
     let task = await  Task.findById(req.query.task_id).exec()
     task.assignees.pull(req.query.assignee_id)
-    task.save()
-    res.redirect(`/task/form?_id=${req.query.task_id}`)
+    // task.save()
+    Task.findByIdAndUpdate(task._id, task, {new:true,lean:true}, async function (error,doc) {
+        res.redirect(`/task/form?_id=${doc._id}`);
+     }) 
 })
 
 taskController.post('/comment', async(req,res)=>{
