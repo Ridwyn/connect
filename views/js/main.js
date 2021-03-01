@@ -177,6 +177,7 @@ async function removeAssignee(assignee_id,task_id){
   location.reload();
 }
 
+console.log(window.location.protocol)
 
 
 function websocketInit({max,start,interval,timeout}) { 
