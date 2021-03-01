@@ -178,9 +178,10 @@ async function removeAssignee(assignee_id,task_id){
 }
 
 
+
 function websocketInit({max,start,interval,timeout}) { 
   if (!document.__socket) {
-    document.__socket=  new WebSocket(`ws://${window.location.host}/ws/task?token=${parseCookie(document.cookie).token}`); 
+    document.__socket=  new WebSocket(`${window.location.protocol==='https'? 'wss': 'ws'}://${window.location.host}/ws/task?token=${parseCookie(document.cookie).token}`); 
   }
 
   document.__socket.addEventListener('open',(event)=>{
