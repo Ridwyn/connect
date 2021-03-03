@@ -32,10 +32,8 @@ class Authentication {
     static async check (req, res,next) {
         let found_user= await User.findOne({'token':req.cookies.token}).exec()
         if(found_user){
-            
            next();
-        }
-        else{
+        }else{
             res.status(401).render('404_error_template', {layout: 'error','errorMsg':'Unauthorised User please signin'});
         }
     }
