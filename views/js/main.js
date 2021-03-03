@@ -172,9 +172,9 @@ async function removeAssignee(assignee_id,task_id){
   console.log(url)
   await axios({ method:'get', url});
 
-  // let socket =await websocketCheck();
-  // socket.send(JSON.stringify({action:'ASSIGNEE_REMOVE',data:data}));
-  // location.reload();
+  let socket =await websocketCheck();
+  socket.send(JSON.stringify({action:'ASSIGNEE_REMOVE',data:data}));
+  location.reload();
 }
 
 
