@@ -8,7 +8,7 @@ const taskSchema = new Schema({
   name: String,
   description: String,
   due_date:Date,
-  start_closed:Date,
+  date_start:Date,
   date_closed:Date,
   time_spent:Date,
   time_estimate:Date,

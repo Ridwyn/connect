@@ -38,7 +38,7 @@ class Authentication {
         }
     }
     static async checkApiToken (req, res,next) {
-        let token=req.query.token || req.signedCookies.token
+        let token=req.headers.authorization || req.signedCookies.token
         let found_user= await User.findOne({'token':token}).exec()
 
         jwt.verify(token, secret, (err, data) => {

@@ -6,7 +6,8 @@ let Task = require(__appRoot+'/models/Task.js')
 let User = require(__appRoot+'/models/User.js')
 
 projectRouter.get('/getall', async (req,res)=>{
-    let spaces =await Workspace.find({'members._id':req.user._id}).lean().exec()
+    console.log(req.user._id)
+    let spaces =await Workspace.find({'members':req.user._id}).lean().exec()
     let space_ids= spaces.map(space=>{
         return space._id;
     })

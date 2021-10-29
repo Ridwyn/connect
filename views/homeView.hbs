@@ -1,17 +1,78 @@
- <nav class="navbar ">
-                <ul class="navbar-nav flex-row ml-auto">
-                    <li class="nav-item mx-1">
-                      <a href="" class="p-2 ">How it works</a>
-                    </li>
-                    <li class="nav-item mx-1">
-                        <a href="" class="p-2 ">About </a>
-                    </li>
-                    <li class="nav-item mx-1">
-                        <a href="/loginpage" class="p-2 ">Login </a>
-                    </li>
-                    <li class="nav-item mx-1">
-                        <a href="/signuppage" class="p-2 ">Signup </a>
-                    </li>
-                </ul>
- </nav>
+ <div class="">
+    <nav class="navbar ">
+             <a href="/dashboard" class="navbar-brand" style="background-color: inherit;"><img  src="/images/connect_logo.svg" width="50"  class="img-fluid" alt=""></a>  
+
+        <ul class="navbar-nav flex-row ml-auto">
+            {{!-- <li class="nav-item  mx-1">
+            <a href="" class="p-2 ">How it works</a>
+            </li>
+            <li class="nav-item mx-1">
+                <a href="" class="p-2 ">About </a>
+            </li> --}}
+            <li class="nav-item mx-1">
+                <a href="/loginpage" class="p-2 ">Login </a>
+            </li>
+            <li class="nav-item mx-1">
+                <a href="/signuppage" class="p-2 ">Signup </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="d-flex flex-column ">
+         <section class="d-flex justify-content-around flex-wrap align-items-center flex-row py-5 px-5" > 
+            <div>
+                <h2 >Plan, Organise and Track <br> Group Projects With Colleagues  </h2>
+            </div>
+            <div>
+                <img class="col img-fluid" src="/images/homapage_monitor.png" alt="">
+            </div>
+        </section>
+        <section class="d-flex justify-content-around flex-wrap align-items-center flex-row-reverse  py-5 px-5" style="background-color: #fff;"> 
+            <div>
+                <h2>Task Comments </h2>
+                <p>Create comments on task so you dont forget where you left off.</p>
+            </div>
+            <div>
+                <img class="col img-fluid" src="/images/comment.png" alt="">
+            </div>
+        </section>
+        <section class="d-flex justify-content-around flex-wrap align-items-center flex-row py-5 px-5 ">
+            <div>
+                <h2 >Instant Notification </h2>
+                <p>Get notified instant when you being assigned a task.<br> 
+                Always upto date with your team.</p>
+            </div>
+            <div>
+                <img class="col img-fluid" src="/images/notifications.png" alt="">
+            </div>
+        </section>
+        <section class="d-flex justify-content-around flex-wrap align-items-center flex-row-reverse py-5 px-5 " style="background-color: #fff;">
+            <div>
+                <h2 >Custom Status </h2>
+                <p>Create Project Specific Status with our Custom Status.</p>
+            </div>
+            <div>
+                <img class="col img-fluid" src="/images/custom_status.png" alt="">
+            </div>
+        </section>
+        <section class="d-flex justify-content-around flex-wrap align-items-center flex-row py-5 px-5 ">
+            <div>
+                <h2 >Feature Rich Editor  </h2>
+                <p>Using a Feature Rich Text Editor on your task. <br>You can be as precise as you want</p>
+            </div>
+            <div>
+                <img class="col img-fluid" src="/images/texteditor.gif" alt="">
+            </div>
+        </section>
+
+    </div>
+
+   
+
+
+ </div>
+
+
+
+
 <h1>{{#unless welcome}}{{/unless}}</h1>
