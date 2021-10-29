@@ -5,17 +5,15 @@ let Project = require(__appRoot+'/models/Project.js')
 let Task = require(__appRoot+'/models/Task.js')
 let User = require(__appRoot+'/models/User.js')
 
-projectRouter.get('/getall', async (req,res)=>{
-    console.log(req.user._id)
-    let spaces =await Workspace.find({'members':req.user._id}).lean().exec()
-    let space_ids= spaces.map(space=>{
-        return space._id;
-    })
-    let projects=[]
-    for (let i = 0; i < space_ids.length; i++) {
-        let found_projects= await Project.find({'workspace':space_ids[i]}).lean().exec()
-        projects.push(...found_projects)       
-    }
+projectRouter.get('/getList', async (req,res)=>{
+    let loggedInUser=await User.findOne({'token':req.headers.authorization}).lean().exec()
+    let projects=await Project.find({'workspace':req.query.space_id}).populate().exec();
+    projects.map(project=>{
+        project.checkCanEdit(loggedInUser._id,function (err, doc) {
+        })
+        project.checkCanDelete(loggedInUser._id,function (err, doc) {
+        })
+    }); 
     res.send(projects)
     res.end()
 })
