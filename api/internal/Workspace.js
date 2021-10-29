@@ -14,7 +14,7 @@ spaceRouter.get('/getall', async (req,res)=>{
         space.checkCanDelete(req.user._id,function (err, doc) {
         })
     });
-    res.send(spaces)
+    res.send(JSON.stringify(spaces))
     res.end()
 })
 
