@@ -85,11 +85,11 @@ class Authentication {
             }else{
                 res.sendStatus(200)
             }
+        }else{
+            res.sendStatus(200);
         }
-        
-        res.sendStatus(200);
-
     }
+    
     static async apiTokenExpire(req,res,next){
         let token=req.query.token || req.body.token
         let found_user= await User.findOne({'token':token}).exec()
