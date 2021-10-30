@@ -70,19 +70,24 @@ class Authentication {
     }
 
     static async logout(req,res,next){
-        let token=req.signedCookies.user.token||req.headers.authorization
+        let token=req?.signedCookies?.user?.token ||req?.headers?.authorization
         let found_user= await User.findOne({'token':token}).exec()
+
+        console.log(found_user)
         if(found_user){
             found_user.token='';
             await found_user.save()
+            // Check if is a api call
+            if (req.baseUrl.indexOf('api')===-1) {
+                res.cookie('user', '', {expires: new Date(0)})
+                res.cookie('token','',{expires: new Date(0)})
+                .redirect('/home')
+            }else{
+                res.sendStatus(200)
+            }
         }
-        if (req.baseUrl.indexOf('api')===-1) {
-            res.cookie('user', '', {expires: new Date(0)})
-            res.cookie('token','',{expires: new Date(0)})
-            .redirect('/home')
-        }else{
-            res.status(200)
-        }
+        
+        res.sendStatus(200);
 
     }
     static async apiTokenExpire(req,res,next){
