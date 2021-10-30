@@ -14,14 +14,29 @@ class Authentication {
                 let token = jwt.sign(JSON.parse(JSON.stringify(found_user)),secret); 
                 found_user.token=token;
                 await found_user.save()
-                res.cookie('user',JSON.parse(JSON.stringify(found_user)), { signed: true })
-                res.cookie("token" ,encodeURIComponent(token))
-                res.redirect("/dashboard")            
+                if (req.baseUrl.indexOf('api')===-1) {
+                    res.cookie('user',JSON.parse(JSON.stringify(found_user)), { signed: true })
+                    res.cookie("token" ,encodeURIComponent(token))
+                    res.redirect("/dashboard")  
+                }else{
+                    res.json(found_user)
+                }
+                          
             } else {
-                res.render("loginView",{layout:'homepage','errorMsg':'Incorrect email or passowrd'})
+                //For incorrect user credentials
+                if (req.baseUrl.indexOf('api')===-1) {
+                    res.render("loginView",{layout:'homepage','errorMsg':'Incorrect email or passowrd'})
+                }else{
+                    res.status(401).json({'errorMsg':'Incorrect email or passowrd'})
+                }
             }
             }else{
+                 //For user not Found
+                 if (req.baseUrl.indexOf('api')===-1) {
                     res.render("loginView",{layout:'homepage', 'errorMsg':'Create an Account'})
+                }else{
+                    res.status(401).json({'errorMsg':'Create an Account'})
+                }
         } 
     }
     static async signup(req,res,next){
@@ -55,14 +70,20 @@ class Authentication {
     }
 
     static async logout(req,res,next){
-        let found_user= await User.findOne({'token':req.signedCookies.user.token}).exec()
+        let token=req.signedCookies.user.token||req.headers.authorization
+        let found_user= await User.findOne({'token':token}).exec()
         if(found_user){
             found_user.token='';
             await found_user.save()
         }
-        res.cookie('user', '', {expires: new Date(0)})
-        res.cookie('token','',{expires: new Date(0)})
-        .redirect('/home')
+        if (req.baseUrl.indexOf('api')===-1) {
+            res.cookie('user', '', {expires: new Date(0)})
+            res.cookie('token','',{expires: new Date(0)})
+            .redirect('/home')
+        }else{
+            res.status(200)
+        }
+
     }
     static async apiTokenExpire(req,res,next){
         let token=req.query.token || req.body.token
