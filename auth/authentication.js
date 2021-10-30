@@ -53,7 +53,7 @@ class Authentication {
         }
     }
     static async checkApiToken (req, res,next) {
-        let token=req.headers.authorization || req.signedCookies.token
+        let token=req.headers.authorization || req?.signedCookies?.token
         let found_user= await User.findOne({'token':token}).exec()
 
         jwt.verify(token, secret, (err, data) => {
@@ -72,8 +72,7 @@ class Authentication {
     static async logout(req,res,next){
         let token=req?.signedCookies?.user?.token ||req?.headers?.authorization
         let found_user= await User.findOne({'token':token}).exec()
-
-        console.log(found_user)
+        
         if(found_user){
             found_user.token='';
             await found_user.save()
