@@ -4,10 +4,10 @@ var jwt = require('jsonwebtoken');
 let secret =process.env.JWT_SECRET
 class Authentication {
     static async login (req, res,next) {
-      let email = req.body.email;
-      let password = req.body.password;
+        let email = req.body.email;
+        let password = req.body.password;
       // For the given username fetch user from DB
-     let found_user= await User.findOne({'email':email}).exec()
+        let found_user= await User.findOne({'email':email}).exec()
   
         if (found_user) {
             if (email === found_user.email && password === found_user.password) {
@@ -27,7 +27,7 @@ class Authentication {
                 if (req.baseUrl.indexOf('api')===-1) {
                     res.render("loginView",{layout:'homepage','errorMsg':'Incorrect email or passowrd'})
                 }else{
-                    res.status(401).json({'errorMsg':'Incorrect email or passowrd'})
+                    res.status(200).json({'errorMsg':'Incorrect email or passowrd'})
                 }
             }
             }else{
@@ -35,7 +35,7 @@ class Authentication {
                  if (req.baseUrl.indexOf('api')===-1) {
                     res.render("loginView",{layout:'homepage', 'errorMsg':'Create an Account'})
                 }else{
-                    res.status(401).json({'errorMsg':'Create an Account'})
+                    res.status(200).json({'errorMsg':'Create an Account'})
                 }
         } 
     }
