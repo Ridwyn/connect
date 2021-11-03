@@ -43,9 +43,13 @@ class Authentication {
     static async signup(req,res,next){
         const new_user=new User(req.body);
         new_user.token=token_generate.encode(new_user)
-        let a = await new_user.save()
-        res.cookie('token',new_user.token)
-        res.cookie('user', new_user.toJSON(), { signed: true }).redirect('/dashboard')
+        await new_user.save()
+        if (req.baseUrl.indexOf('api')===-1) {
+            res.cookie('token',new_user.token)
+            res.cookie('user', new_user.toJSON(), { signed: true }).redirect('/dashboard')      
+        }else{
+            res.json(new_user.toJSON())
+        }
     }
     static async check (req, res,next) {
         let found_user= await User.findOne({'token':req.cookies.token}).exec()
