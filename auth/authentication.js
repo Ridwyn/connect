@@ -1,22 +1,23 @@
 let User=require('../models/User.js')
-var jwt = require('jsonwebtoken');
 
-let secret =process.env.JWT_SECRET
+let token_generate = require('../helpers/token_generate') 
+
 class Authentication {
     static async login (req, res,next) {
         let email = req.body.email;
         let password = req.body.password;
       // For the given username fetch user from DB
-        let found_user= await User.findOne({'email':email}).exec()
-  
+        let found_user= await User.findOne({'email':email}).exec();
+        
         if (found_user) {
             if (email === found_user.email && password === found_user.password) {
-                let token = jwt.sign(JSON.parse(JSON.stringify(found_user)),secret); 
+                let token = token_generate.encode(found_user)
                 found_user.token=token;
+                
                 await found_user.save()
                 if (req.baseUrl.indexOf('api')===-1) {
                     res.cookie('user',JSON.parse(JSON.stringify(found_user)), { signed: true })
-                    res.cookie("token" ,encodeURIComponent(token))
+                    res.cookie("token" ,token)
                     res.redirect("/dashboard")  
                 }else{
                     res.json(found_user)
@@ -35,13 +36,15 @@ class Authentication {
                  if (req.baseUrl.indexOf('api')===-1) {
                     res.render("loginView",{layout:'homepage', 'errorMsg':'Create an Account'})
                 }else{
-                    res.status(200).json({'errorMsg':'Create an Account'})
+                    res.json({'errorMsg':'Create an Account'})
                 }
         } 
     }
     static async signup(req,res,next){
         const new_user=new User(req.body);
+        new_user.token=token_generate.encode(new_user)
         let a = await new_user.save()
+        res.cookie('token',new_user.token)
         res.cookie('user', new_user.toJSON(), { signed: true }).redirect('/dashboard')
     }
     static async check (req, res,next) {
@@ -56,16 +59,11 @@ class Authentication {
         let token=req.headers.authorization || req?.signedCookies?.token
         let found_user= await User.findOne({'token':token}).exec()
 
-        jwt.verify(token, secret, (err, data) => {
-            if (err) {
-                return res.sendStatus(403);
-            }
             if (!found_user) {
                 return res.sendStatus(403);
             }
-            req.user = data;
+            req.user = found_user;
             next();
-        });
           
     }
 

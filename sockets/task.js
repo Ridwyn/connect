@@ -1,5 +1,7 @@
 const WebSocket = require('ws');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
+var ObjectId = require('mongodb').ObjectID;
+const token_generate = require('../helpers/token_generate') 
 const User = require(__appRoot+'/models/User.js');
 const Task = require(__appRoot+'/models/Task.js');
 const _users_connected = require(__appRoot+'/models/_Users_connected.js');
@@ -15,15 +17,11 @@ wss1.on('connection', async function connection(ws, request) {
     if(!token){
         ws.terminate()
     }
-    //Verify token to get user id
-    jwt.verify(decodeURIComponent(token), process.env.JWT_SECRET, (err, data) => {
-        if (err) {
-            console.log(err)
-            ws.terminate()
-            return;
-        }
-        ws.user_id=data._id;
-    });
+
+    let _id=token_generate.decode({_id:token})
+    // Have to strip quotes from string due to JSON Stringify in token generate
+    _id=_id.split('"').join('')
+    ws.user_id=_id
         
     // Fetch db and save current connected id
     let users_connected = await _users_connected.findOne({'websocket':'websocket'}).exec();
