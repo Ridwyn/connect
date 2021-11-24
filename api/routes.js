@@ -8,6 +8,10 @@ app.use('/login',auth.login)
 app.use('/signup',auth.signup)
 app.use('/logout',auth.logout)
 
+// User Data
+var user = require('./internal/User.js')
+app.use('/user',user)
+
 //Projects
 var project = require('./internal/Project.js')
 app.use('/project',auth.checkApiToken,project)

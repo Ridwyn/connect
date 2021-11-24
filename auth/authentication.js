@@ -13,14 +13,15 @@ class Authentication {
             if (email === found_user.email && password === found_user.password) {
                 let token = token_generate.encode(found_user)
                 found_user.token=token;
-                
+                console.log(found_user.token)
                 await found_user.save()
                 if (req.baseUrl.indexOf('api')===-1) {
+                    
                     res.cookie('user',JSON.parse(JSON.stringify(found_user)), { signed: true })
                     res.cookie("token" ,token)
                     res.redirect("/dashboard")  
                 }else{
-                    res.json(found_user)
+                    res.status(200).json(found_user)
                 }
                           
             } else {
