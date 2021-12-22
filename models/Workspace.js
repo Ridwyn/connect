@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const userSchema = require('./User.js').schema
-const status_templateSchema = require('./Status_template.js').schema
+const userStatusTemplateSchema = require('./User_Statuses_template.js').schema
 const Schema = mongoose.Schema
 
 const workspaceSchema = new Schema({
@@ -13,7 +13,7 @@ const workspaceSchema = new Schema({
   usersAllowedToDelete:[{type: Schema.Types.ObjectId, ref: 'User'}],
   canEdit:{type:Boolean, default:false},
   canDelete:{type:Boolean, default:false},
-  custom_statuses:[status_templateSchema],
+  custom_statuses:[userStatusTemplateSchema],
   default_statuses:{type:Schema.Types.Mixed, default:{'_id':mongoose.Types.ObjectId(),'name':'basic',
   'statuses':
    [

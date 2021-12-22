@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const userSchema = require(__appRoot+'/models/User.js').schema
-const status_templateSchema = require(__appRoot+'/models/Status_template').schema
+const userStatusTemplateSchema = require(__appRoot+'/models/User_Statuses_template').schema
 const workspace = require(__appRoot+'/models/Workspace').schema
 const Schema = mongoose.Schema
 
