@@ -8,7 +8,7 @@ const mnemonicId = require('mnemonic-id');
 
 spaceRouter.get('/getList', async (req,res)=>{
     let loggedInUser=await User.findOne({'token':req.headers.authorization}).lean().exec()
-    let spaces =await Workspace.find({'members':req.user._id}).exec()
+    let spaces =await Workspace.find({'members':req.user._id}).exec();
     spaces.forEach(space => {
         space.checkCanEdit(loggedInUser._id,function (err, doc) {
         })
