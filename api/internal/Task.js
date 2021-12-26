@@ -19,12 +19,19 @@ taskRouter.get('/getItem/:task_id/', async (req,res)=>{
     res.json(task)
     res.end()
 })
-taskRouter.post('/newTask', async(req,res)=>{
-
-    let new_task=new Task(req.body)             
-    await new_task.save()
-    res.json(new_task)
-    res.end()
+taskRouter.post('/saveTask', async(req,res)=>{
+    if (req.body._id) {
+        Task.findByIdAndUpdate(req.body._id, req.body, {new:true,lean:true}, function (error,doc) {
+            res.json(doc)
+            res.end()
+         })  
+    }else{
+        let new_task=new Task(req.body)             
+        await new_task.save()
+        res.json(new_task)
+        res.end()
+    }
+    
 })
 
 module.exports= taskRouter
