@@ -15,7 +15,7 @@ taskRouter.get('/getList/:project_id', async (req,res)=>{
 
 taskRouter.get('/getItem/:task_id/', async (req,res)=>{
     let loggedInUser=await User.findOne({'token':req.headers.authorization}).lean().exec()
-    let task=await Task.findById(req.params.task_id).lean().exec();
+    let task=await Task.findById(req.params.task_id).populate('assignees').exec();
     res.json(task)
     res.end()
 })

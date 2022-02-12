@@ -11,8 +11,10 @@ const workspaceSchema = new Schema({
   members:[{type: Schema.Types.ObjectId, ref: 'User'}],
   usersAllowedToEdit:[{type: Schema.Types.ObjectId, ref: 'User'}],
   usersAllowedToDelete:[{type: Schema.Types.ObjectId, ref: 'User'}],
+  usersAllowedToLeave:[{type: Schema.Types.ObjectId, ref: 'User'}],
   canEdit:{type:Boolean, default:false},
   canDelete:{type:Boolean, default:false},
+  canLeave:{type:Boolean, default:false},
   custom_statuses:[userStatusTemplateSchema],
   default_statuses:{type:Schema.Types.Mixed, default:{'_id':mongoose.Types.ObjectId(),'name':'basic',
   'statuses':
@@ -36,6 +38,15 @@ workspaceSchema.methods.checkCanDelete = function(user_id) {
   for (let i = 0; i < this.usersAllowedToDelete.length; i++) {
     if(user_id.toString()===this.usersAllowedToDelete[i].toString()){
       this.canDelete=true;
+    }
+  }
+    return this;
+};
+workspaceSchema.methods.checkCanLeave = function(user_id) {
+  for (let i = 0; i < this.usersAllowedToLeave.length; i++) {
+    if(user_id.toString()===this.usersAllowedToLeave[i].toString()){
+
+      this.canLeave=true;
     }
   }
     return this;
