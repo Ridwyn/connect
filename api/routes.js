@@ -20,9 +20,14 @@ app.use('/project',auth.checkApiToken,project)
 var space = require('./internal/Workspace.js')
 app.use('/space',auth.checkApiToken,space)
 
-//Spaces
+//Task
 var task = require('./internal/Task.js')
 app.use('/task',auth.checkApiToken,task)
+
+// DOING SSE ROUTING BELOW HERE
+//Spaces
+var sseTask = require('./sse/Task.js')
+app.use('/sse/task',sseTask)
 
 
 module.exports= app

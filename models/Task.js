@@ -18,6 +18,7 @@ const taskSchema = new Schema({
   created_by:{type: Schema.Types.ObjectId, ref: 'User' },
   priority:String,
   assignees:[{type: Schema.Types.ObjectId, ref: 'User' }],
+  members:[{type: Schema.Types.ObjectId, ref: 'User', unique: true }],
   project:{type: Schema.Types.ObjectId, ref: 'Project' },
   workspace:{type: Schema.Types.ObjectId, ref: 'Workspace' },
   comments:[{type: Schema.Types.ObjectId, ref: 'Comment' }],

@@ -5,6 +5,7 @@ const Schema = mongoose.Schema
 
 const workspaceSchema = new Schema({
   name: String,
+  active_status_template:String,
   created_at:{ type: Date, default: Date.now },
   created_by:{ type : userSchema , required : true },
   join_code: { type : String ,  required : true },
@@ -15,7 +16,7 @@ const workspaceSchema = new Schema({
   canEdit:{type:Boolean, default:false},
   canDelete:{type:Boolean, default:false},
   canLeave:{type:Boolean, default:false},
-  custom_statuses:[userStatusTemplateSchema],
+  custom_statuses:[],
   default_statuses:{type:Schema.Types.Mixed, default:{'_id':mongoose.Types.ObjectId(),'name':'basic',
   'statuses':
    [

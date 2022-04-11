@@ -6,12 +6,18 @@ let Task = require(__appRoot+'/models/Task.js')
 let User = require(__appRoot+'/models/User.js')
 
 userRouter.get('/getProfile', async (req,res)=>{
+  try {
     let loggedInUser=await User.findOne({'token':req.headers.authorization}).lean().exec()
     res.json(loggedInUser)
     res.end()
+  } catch (e) {
+    console.log(e);
+  }
+
 })
 
 userRouter.get('/getItem/:space_id/', async (req,res)=>{
+  try {
     let loggedInUser=await User.findOne({'token':req.headers.authorization}).lean().exec()
     let space=await Workspace.findById(req.params.space_id).exec();
     // Handle checks for access level
@@ -19,6 +25,10 @@ userRouter.get('/getItem/:space_id/', async (req,res)=>{
      space.checkCanDelete(loggedInUser._id,function (err, doc) {})
     res.json(space)
     res.end()
+  } catch (e) {
+    console.log(e);
+  }
+
 })
 
 module.exports= userRouter

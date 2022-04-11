@@ -7,6 +7,7 @@ const morgan = require('morgan')
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
+const { Server } = require("socket.io");
 
 
 const mongoose = require('mongoose')
@@ -54,11 +55,14 @@ app.engine('hbs', handlebars({
 const PORT = process.env.PORT || '4000';
 const start = async() => {
 	try{
+
+
+
     // CONNECT TO MONGODB
     const url = process.env.MONGODB_URL;
-    await mongoose.connect(url, { 
+    await mongoose.connect(url, {
       useNewUrlParser: true,
-      useUnifiedTopology: true, 
+      useUnifiedTopology: true,
       useCreateIndex:true,
       useFindAndModify:false ,
       })
@@ -66,7 +70,7 @@ const start = async() => {
     db.once('open', _ => {
       console.log('Database connected:')
     })
-    
+
     db.on('error', err => {
       console.error('connection error:', err)
     })
@@ -78,31 +82,51 @@ const start = async() => {
       const api = require('./api/routes')
       app.use('/api',api)
 
-      
+
 
       // NOT found error
       app.use(function(req, res, next){
         res.status(404).render('404_error_template', {layout: 'error','errorMsg':'Sorry no Page found'});
         });
-      
+
       const server = require('http').createServer(app);
+
+			// USING SOCKET IO TO CREAT WebSocketconst io = new Server(httpServer, { /* options */ });
+			const io = new Server(server, { });
+				io.on("connection", (socket) => {
+					socket.emit("success", {'suceess':'sucess'});
+					console.log(socket);
+				});
 
       const task_websockets = require('./sockets/task.js')
       server.on('upgrade', function upgrade(request, socket, head) {
-        const pathname = request.url;
-        if (pathname.includes('/ws/task')) {
-          task_websockets.handleUpgrade(request, socket, head, function done(ws) {
-            task_websockets.emit('connection', ws, request);
-          });
-        }else{
-          socket.destroy()
-        }
+				try {
+					const pathname = request.url;
+					if (pathname.includes('/ws/task')) {
+						task_websockets.handleUpgrade(request, socket, head, function done(ws) {
+							task_websockets.emit('connection', ws, request);
+						});
+					}else{
+						socket.destroy()
+					}
+				} catch (e) {
+					console.log(e);
+				}
+
+
       });
-      
+
       server.listen(PORT, () => console.log(`App initialised, and listening on port ${PORT}`));
+
+			process.on('uncaughtException', function (err) {
+				server.close(() => {console.log('Process terminated')});
+				process.exit(0);
+			});
 	}catch(error){
 		console.log(error);
 	}
+
+
 };
 start();
 
@@ -111,7 +135,7 @@ start();
 // Connect with mongoDB   ##done
 // Start model structure   ##done
 // Implement workspace crud ##done
-// implement project crud ###done 
+// implement project crud ###done
 // implement simple task ##done
 // Add custom statuses to project ##done
 // Add status to task ##done
@@ -133,7 +157,7 @@ start();
 // upload to heroku and test on live server
 
 
-// Implement click on workspace and disyplay all task 
+// Implement click on workspace and disyplay all task
 //Implement notes personal for users
 // implement git database to asve attachment from task
 // Implement createing a new repo
@@ -143,4 +167,3 @@ start();
 // implementing creating a master branch and feature branches etc feature A ref
 // implement merging branches,
 //implement reference extension for importing references from my extension. i.e excite haravrd references
-
