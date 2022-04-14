@@ -64,6 +64,22 @@ taskRouter.get('/getList/:project_id', async (req,res)=>{
 
 })
 
+taskRouter.get('/getAssignedTasks', async (req,res)=>{
+  try {
+    let loggedInUser=await User.findOne({'token':req.headers.authorization}).lean().exec()
+    let tasks=await Task.find({'assignees':loggedInUser._id}).populate('created_by').lean().exec();
+    res.json(tasks)
+    res.end()
+  } catch (e) {
+    console.log(e);
+    res.status(404)
+    res.end();
+  }
+
+})
+
+
+
 taskRouter.get('/getItem/:task_id/', async (req,res)=>{
   try {
 

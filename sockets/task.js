@@ -25,15 +25,17 @@ wss1.on('connection', async function connection(ws, request) {
 
     // Fetch db and save current connected id
     let users_connected = await _users_connected.findOne({'websocket':'websocket'}).exec();
-    users_connected.users.push(ws.user_id)
-    await users_connected.save()
+    users_connected.users.push(ws.user_id);
+    await users_connected.save();
 
-    //
+
+
     ws.on('message',async(_data)=>{
-    let res =JSON.parse(_data)
-    console.log(res.action)
+    let res =JSON.parse(_data);
+
     if(res.action=='ASSIGNEE_ADD'){
         let task = res.data
+
         let hashAssignees= new Set(task.assignees.map((assignee)=>(assignee.toString())))
         wss1.clients.forEach(async function each(client) {
             let fnd=false;
@@ -50,17 +52,18 @@ wss1.on('connection', async function connection(ws, request) {
      }
      if(res.action==='ASSIGNEE_REMOVE'){
         let task= res.data
+        let hashAssignees= new Set(task.assignees.map((assignee)=>(assignee.toString())))
         wss1.clients.forEach(async function each(client) {
-           let fnd=false;
-           if (task.assignee_id===client.user_id.toString()) {
-               fnd=true;
-           }
+          let fnd=false;
+          if (hashAssignees.has(client.user_id.toString())) {
+              fnd=true;
+          }
 
-           if ( client.readyState === WebSocket.OPEN && fnd) {
-               // let tasks= await Task.find({ 'assignees' :  client.user_id}).lean().exec();
-               let fndtask= await Task.findById(task.task_id).lean().exec();
-               client.send(JSON.stringify({action:'ASSIGNEE_REMOVE',data:[fndtask]}));
-           }
+          if ( client.readyState === WebSocket.OPEN && fnd) {
+              // let assignedtasks= await Task.find({ 'assignees' :  client.user_id}).lean().exec();
+              let fndtask= await Task.findById(task._id).lean().exec();
+              client.send(JSON.stringify({action:'ASSIGNEE_REMOVE',data:[fndtask]}));
+          }
         });
      }
      if(res.action=='TASK_UPDATE'){
