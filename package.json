@@ -1,7 +1,7 @@
 {
   "name": "connect",
   "engines": {
-    "node": "12.18.3"
+    "node": "16.13.0"
   },
   "version": "1.0.0",
   "description": "",
