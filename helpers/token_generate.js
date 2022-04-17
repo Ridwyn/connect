@@ -1,7 +1,7 @@
 
 const encode =(user)=>{
     let t =Buffer.from(JSON.stringify({_id:user._id,time:Date.now()}), 'utf8');
-    return t.toString('base64')  
+    return t.toString('base64')
 }
 
 const decode =(user)=>{

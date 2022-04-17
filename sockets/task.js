@@ -18,15 +18,26 @@ wss1.on('connection', async function connection(ws, request) {
         ws.terminate()
     }
 
-    let _id=token_generate.decode({_id:token})
-    // Have to strip quotes from string due to JSON Stringify in token generate
-    _id=_id.split('"').join('')
-    ws.user_id=_id;
+   try {
+     let _id=token_generate.decode({_id:token})
+     // Have to strip quotes from string due to JSON Stringify in token generate
+       _id=_id.split('"').join('')
+       ws.user_id=_id;
+   } catch (e) {
+
+   }
 
     // Fetch db and save current connected id
-    let users_connected = await _users_connected.findOne({'websocket':'websocket'}).exec();
-    users_connected.users.push(ws.user_id);
-    await users_connected.save();
+    let users_connected=null;
+    try {
+       users_connected = await _users_connected.findOne({'websocket':'websocket'}).exec();
+      users_connected.users.push(ws.user_id);
+      await users_connected.save();
+    } catch (e) {
+
+    }
+
+
 
 
 

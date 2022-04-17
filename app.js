@@ -36,13 +36,16 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIEPARSER_SECRET))
 
+// app.use('/app',express.static(__dirname+"/build"))
+// Serve the static files from the React app
+// Serve the static files from the React app
 
 // NEEDED TO IMPORT CSS
 app.use(express.static(__dirname+"/views"));
 
 //Sets our app to use the handlebars engine
 app.set('view engine', 'hbs');
-//Sets handlebars configurations (we will go through them later on)
+// Sets handlebars configurations (we will go through them later on)
 app.engine('hbs', handlebars({
     extname: '.hbs',
     layoutsDir: __dirname + '/views/layouts',
@@ -92,13 +95,16 @@ const start = async() => {
       const server = require('http').createServer(app);
 
 			// USING SOCKET IO TO CREAT WebSocketconst io = new Server(httpServer, { /* options */ });
-			const io = new Server(server, { });
-				io.on("connection", (socket) => {
-					socket.emit("success", {'suceess':'sucess'});
-					console.log(socket);
-				});
+			// const io = new Server(server, { });
+			// 	io.on("connection", (socket) => {
+			// 		socket.emit("success", {'suceess':'sucess'});
+			// 		console.log(socket);
+			// 	});
 
-      const task_websockets = require('./sockets/task.js')
+
+
+      const task_websockets = require('./sockets/task.js');
+
       server.on('upgrade', function upgrade(request, socket, head) {
 				try {
 					const pathname = request.url;
